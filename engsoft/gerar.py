@@ -220,11 +220,15 @@ def referencias(texto_do_corpo: str) -> str:
     return f'<section class="capitulo"><h2 class="sem-numero">Referências</h2>{itens}</section>'
 
 
+def integrantes_do_grupo() -> list[str]:
+    """Linhas de engsoft/grupo.txt (`Nome completo — matrícula`), sem comentários; vazio se não houver."""
+    if not os.path.exists(GRUPO):
+        return []
+    return [linha.strip() for linha in ler(GRUPO).splitlines() if linha.strip() and not linha.startswith("#")]
+
+
 def capa() -> str:
-    nomes = []
-    if os.path.exists(GRUPO):
-        nomes = [linha.strip() for linha in ler(GRUPO).splitlines() if linha.strip() and not linha.startswith("#")]
-    nomes = nomes or ["[Nome completo — matrícula]"] * 3
+    nomes = integrantes_do_grupo() or ["[Nome completo — matrícula]"] * 3
     integrantes = "".join(f"<div>{html.escape(n)}</div>" for n in nomes)
     return f"""
 <section class="capa">
@@ -266,6 +270,8 @@ def montar_slides() -> None:
     fonte = re.sub(r"\{\{FIG:([^}|]+)(\|[^}]*)?\}\}", lambda m: svg_inline(m.group(1)), fonte)
     fonte = re.sub(r"\{\{IMG:([^}]+)\}\}", lambda m: img_inline(m.group(1)), fonte)
     fonte = fonte.replace("{{TABELA_EVOLUCAO}}", tabela_evolucao(com_legenda=False))
+    nomes = [re.split(r"\s+[—–-]\s+", n)[0] for n in integrantes_do_grupo()]   # nos slides, sem matrícula
+    fonte = fonte.replace("{{INTEGRANTES}}", " · ".join(map(html.escape, nomes)) or "[Integrantes do grupo]")
     os.makedirs(SAIDA, exist_ok=True)
     destino = os.path.join(SAIDA, "slides.html")
     with open(destino, "w", encoding="utf-8") as f:
