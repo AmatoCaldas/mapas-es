@@ -1,0 +1,8 @@
+# Cobertura do servidor (pytest --cov). Mede o código do jogo; testes e scripts de apoio ficam de fora.
+[run]
+source = motor, main
+branch = true
+
+[report]
+precision = 1
+show_missing = true

@@ -1,0 +1,55 @@
+<h2>Estudo de caso: a arquitetura do MAPAS</h2>
+
+<p>Este capítulo aplica os conceitos do Capítulo 2 ao MAPAS. Depois de uma visão geral, concentra-se em duas decisões arquiteturais que explicam o restante do sistema: <strong>o PostgreSQL valida as regras do jogo</strong> e <strong>o acesso ao banco passa por um único adaptador</strong>. Para cada uma, apresentam-se o contexto, a alternativa descartada e o custo aceito. Ao todo, o projeto registra oito decisões como ADRs em <code>projeto/jogo/docs/arquitetura/adr/</code>; as demais são citadas apenas quando necessárias.</p>
+
+<h3>Contexto e visão geral</h3>
+
+<p>O MAPAS é um jogo cooperativo por turnos para até quatro pessoas, no navegador do computador ou do celular. Em cada rodada há uma <em>fase dos jogadores</em>, em que todos agem ao mesmo tempo, e uma <em>fase dos inimigos</em>, calculada no servidor. Três características do problema orientam a arquitetura: jogadores podem disputar o mesmo item ou o mesmo alvo no mesmo instante; o cliente roda na máquina do jogador e não é confiável; e o esquema do banco, com as primeiras regras de negócio e gatilhos, já existia antes do jogo, entregue na disciplina de Banco de Dados.</p>
+
+<p>O estilo é <strong>cliente-servidor com servidor autoritativo</strong> (Figura 1). O cliente, em TypeScript com a biblioteca Phaser, desenha o jogo e envia apenas a <em>intenção</em> do jogador. O servidor, em Python com FastAPI, recebe essa intenção pela API REST ou por WebSocket, executa os casos de uso no motor do jogo e transmite o resultado a todos. O PostgreSQL guarda o estado e decide se cada operação é válida.</p>
+
+{{FIG:conteineres.svg|Visão de contêineres do MAPAS (modelo C4, nível 2)}}
+
+<h3>Decisão 1: o PostgreSQL valida as regras</h3>
+
+<p><strong>Contexto.</strong> Na fase simultânea, dois jogadores podem pisar no mesmo item ou atacar o mesmo inimigo no mesmo instante. Se cada requisição verificasse a regra no servidor e depois gravasse o resultado, duas requisições concorrentes poderiam ambas passar na verificação antes de qualquer uma gravar. Além disso, as regras de posse de item, alcance e ações por rodada já estavam implementadas como gatilhos.</p>
+
+<p><strong>Decisão.</strong> Toda regra de integridade mora no banco, como restrição ou gatilho, e toda recusa sai com uma mensagem identificada pelo código da regra, como <code>RN13: o alvo está a 5 tiles; "Arco Curto" alcança 3</code>. O servidor não reimplementa essas regras: tenta a operação numa transação e repassa ao jogador a recusa do banco. Regras de simulação, como a IA dos inimigos e a geração dos andares, ficam no Python. A Figura 2 mostra o caminho de uma jogada.</p>
+
+{{FIG:jogada.svg|Percurso de uma jogada: intenção, validação no banco e difusão do resultado}}
+
+<p><strong>Alternativa descartada.</strong> Implementar as regras no Python seria mais fácil de depurar e de testar isoladamente, mas obrigaria o servidor a criar suas próprias travas de concorrência e duplicaria regras que já existiam no banco. Colocá-las no cliente estava fora de questão, pois o jogador controla o cliente.</p>
+
+<p><strong>Custo aceito.</strong> Regra escrita em PL/pgSQL é mais difícil de ler e de testar do que uma função Python, e toda mudança de regra exige uma migração nova, porque migrações já publicadas não podem ser editadas. Para pagar esse custo, os testes de integração do servidor rodam contra um PostgreSQL real, recriado do zero a cada execução da integração contínua, e um teste verifica que toda recusa do banco traz o código <code>RNxx</code>. A decisão escalou com o sistema: as regras identificadas no banco passaram de 18 na v1 para 46 na v3.</p>
+
+<h3>Decisão 2: o acesso ao banco passa por um adaptador</h3>
+
+<p><strong>Contexto.</strong> Com o banco como árbitro, quase todo caso de uso abre uma transação e pode receber uma violação de gatilho. A mensagem crua do PostgreSQL, como <code>duplicate key value violates unique constraint</code>, não deve chegar ao jogador: além de inútil para ele, expõe a estrutura do banco.</p>
+
+<p><strong>Decisão.</strong> Apenas o módulo <code>motor/banco.py</code> importa o driver do PostgreSQL, <code>psycopg2</code>. Ele mantém o conjunto de conexões, impõe um tempo-limite de 5 segundos às consultas e oferece a função <code>transacao()</code>, que converte a violação de regra numa exceção do próprio jogo, <code>RegraErro</code>. Os casos de uso conhecem apenas essa exceção. É o papel do <em>adaptador</em> da arquitetura hexagonal (COCKBURN, 2005):</p>
+
+<pre><code>@contextmanager
+def transacao():
+    ...
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                yield cur
+    except psycopg2.IntegrityError as erro:   # violação de regra do banco
+        raise RegraErro(_mensagem(erro), ...) from erro</code></pre>
+
+<p><strong>Alternativa descartada.</strong> Deixar cada módulo abrir sua conexão e tratar seus erros, o que espalharia pelo código o tempo-limite, a devolução das conexões e a tradução das mensagens.</p>
+
+<p><strong>Custo aceito.</strong> Todo acesso novo ao banco precisa passar por esse módulo, e qualquer recurso do driver que ele não ofereça exige alterá-lo. Em troca, trocar o driver ou mudar a política de conexões afeta um único arquivo. A regra é verificada por um teste de arquitetura de três linhas:</p>
+
+<pre><code>def test_so_o_motor_banco_fala_com_o_postgres():
+    """ADR-0002: o acesso ao banco passa por um adaptador só."""
+    assert _quem_importa("psycopg2") == INFRA_BANCO   # {"banco"}</code></pre>
+
+<h3>As decisões ao longo das versões</h3>
+
+<p>Cada versão do MAPAS está preservada no Git, o que permite medir todas com a mesma régua. O script <code>engsoft/evolucao/medir.py</code> extrai cada versão numa pasta temporária e conta, entre outras medidas, quantos módulos do servidor acessam o banco diretamente e quantos arquivos do cliente fazem requisições HTTP — a regra equivalente do lado do cliente, segundo a qual só <code>api.ts</code> conversa com a API (ADR-0003).</p>
+
+{{TABELA_EVOLUCAO}}
+
+<p>A Tabela mostra que o sistema cresceu cerca de catorze vezes entre a v1 e a v3 sem que a fronteira do servidor se rompesse: o adaptador continuou sendo o único acesso ao banco. A fronteira do cliente, ao contrário, se rompeu justamente na v2, quando o desenvolvimento passou a ser feito em <strong>pacotes paralelos executados por agentes de IA</strong>, cada um em seu próprio <em>branch</em>. Um desses pacotes precisava de uma função interna do <code>api.ts</code> que não era exportada e a copiou. É a erosão arquitetural descrita no Capítulo 2, agravada pela geração de código em paralelo que o mesmo capítulo apontou como risco. Nenhuma das duas regras era verificada automaticamente; a do servidor resistiu, a do cliente não. O Capítulo 5 mostra como a violação foi encontrada, corrigida e impedida de voltar.</p>

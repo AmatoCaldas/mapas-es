@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" font-family="Helvetica, Arial, sans-serif" font-size="12">
+  <defs><marker id="s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#334"/></marker></defs>
+  <rect width="820" height="420" fill="#fff"/>
+  <g font-weight="bold" text-anchor="middle">
+    <rect x="30" y="14" width="150" height="34" rx="6" fill="#e8f1fb" stroke="#2b5d8a"/><text x="105" y="36">Cliente (Phaser)</text>
+    <rect x="235" y="14" width="150" height="34" rx="6" fill="#fff3df" stroke="#b7791f"/><text x="310" y="36">Sala (WebSocket)</text>
+    <rect x="440" y="14" width="150" height="34" rx="6" fill="#e9f5ea" stroke="#2f7d3a"/><text x="515" y="36">motor/partidas.py</text>
+    <rect x="645" y="14" width="150" height="34" rx="6" fill="#f1e8f7" stroke="#6b3fa0"/><text x="720" y="36">PostgreSQL</text>
+  </g>
+  <g stroke="#aaa" stroke-dasharray="4 4"><line x1="105" y1="48" x2="105" y2="410"/><line x1="310" y1="48" x2="310" y2="410"/><line x1="515" y1="48" x2="515" y2="410"/><line x1="720" y1="48" x2="720" y2="410"/></g>
+  <path d="M105,70 h40 v18 h-36" fill="none" stroke="#334" marker-end="url(#s)"/><text x="150" y="82">prévia local (núcleo puro)</text>
+  <line x1="105" y1="112" x2="306" y2="112" stroke="#334" marker-end="url(#s)"/><text x="115" y="106">{acao:"lancar", item, x, y}</text>
+  <line x1="310" y1="140" x2="511" y2="140" stroke="#334" marker-end="url(#s)"/><text x="320" y="134">lancar(partida, jogador, …)</text>
+  <line x1="515" y1="168" x2="716" y2="168" stroke="#334" marker-end="url(#s)"/><text x="525" y="162">INSERT INTO jogada (transação)</text>
+  <path d="M720,182 h40 v18 h-36" fill="none" stroke="#334" marker-end="url(#s)"/><text x="600" y="214" font-size="11">gatilhos: posse, alcance, ações, munição…</text>
+  <rect x="20" y="226" width="790" height="80" fill="none" stroke="#c0392b" stroke-dasharray="3 3"/><text x="28" y="242" fill="#c0392b" font-weight="bold">regra violada</text>
+  <line x1="716" y1="256" x2="519" y2="256" stroke="#c0392b" marker-end="url(#s)"/><text x="560" y="250" fill="#c0392b">IntegrityError "RN13: …"</text>
+  <line x1="511" y1="276" x2="314" y2="276" stroke="#c0392b" marker-end="url(#s)"/><text x="350" y="270" fill="#c0392b">RegraErro (banco.py)</text>
+  <line x1="306" y1="296" x2="109" y2="296" stroke="#c0392b" marker-end="url(#s)"/><text x="140" y="290" fill="#c0392b">{tipo:"erro", mensagem}</text>
+  <rect x="20" y="316" width="790" height="88" fill="none" stroke="#2f7d3a" stroke-dasharray="3 3"/><text x="28" y="332" fill="#2f7d3a" font-weight="bold">aceita</text>
+  <line x1="716" y1="346" x2="519" y2="346" stroke="#2f7d3a" marker-end="url(#s)"/><text x="560" y="340" fill="#2f7d3a">jogada + efeitos</text>
+  <line x1="511" y1="366" x2="314" y2="366" stroke="#2f7d3a" marker-end="url(#s)"/><text x="330" y="360" fill="#2f7d3a">alvos, tiles, mortes, drops</text>
+  <line x1="306" y1="388" x2="109" y2="388" stroke="#2f7d3a" marker-end="url(#s)"/><text x="120" y="382" fill="#2f7d3a">{tipo:"jogada"} a todos + estado</text>
+</svg>

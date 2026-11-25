@@ -1,0 +1,21 @@
+=== ANTES (9ab1263, v3 publicada): a regra existia só no documento ===
+ok 1 - o grafo enxerga os imports (sanidade das regras abaixo)
+not ok 2 - só o api.ts faz HTTP (fetch): token, erro e formato num lugar só
+    +   'jogo/pvpve/lobby.ts',
+    +   'ui/progresso.ts'
+ok 3 - só a partida abre WebSocket (uma conexão por partida, com reconexão)
+ok 4 - Phaser fica dentro do jogo/ (telas, mochila e ui são DOM puro)
+# pass 13
+# fail 1
+
+=== Quem fazia HTTP por conta própria ===
+jogo/pvpve/lobby.ts:20:  const r = await fetch(caminho, {
+ui/progresso.ts:29:    const r = await fetch("/api/progresso", { headers: { Authorization: `Bearer ${token}` } });
+
+=== DEPOIS (este trabalho): a regra vira teste no CI ===
+ok 1 - o grafo enxerga os imports (sanidade das regras abaixo)
+ok 2 - só o api.ts faz HTTP (fetch): token, erro e formato num lugar só
+ok 3 - só a partida abre WebSocket (uma conexão por partida, com reconexão)
+ok 4 - Phaser fica dentro do jogo/ (telas, mochila e ui são DOM puro)
+# pass 14
+# fail 0

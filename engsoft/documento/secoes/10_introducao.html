@@ -1,0 +1,26 @@
+<h2>Introdução</h2>
+
+<p>A <strong>Arquitetura de Software</strong> decide como um sistema se divide e como as partes se comunicam; a <strong>Qualidade de Software</strong> define o que é um sistema bom e como garantir e medir isso ao longo do desenvolvimento. Os dois temas se cruzam: boa parte dos atributos de qualidade, como manutenibilidade, segurança e testabilidade, é consequência de decisões arquiteturais, e uma decisão arquitetural só continua valendo se houver um mecanismo de qualidade que a proteja.</p>
+
+<p>Este trabalho, da disciplina DCC061 – Engenharia de Software da Universidade Federal de Juiz de Fora, explora esses dois temas a partir de uma pergunta prática: <strong>o que mantém as decisões de arquitetura de um sistema de pé enquanto o código cresce rapidamente — inclusive quando parte dele é escrita por agentes de Inteligência Artificial?</strong></p>
+
+<h3>O sistema estudado</h3>
+
+<p>O MAPAS começou como trabalho da disciplina de Banco de Dados e se tornou um jogo cooperativo por turnos, jogado no navegador ou no celular por até quatro pessoas, publicado na internet e mantido num repositório Git com integração contínua. Sua característica mais marcante é que o <strong>PostgreSQL é o árbitro das regras</strong>: restrições e gatilhos recusam a jogada inválida. O sistema passou por três versões em poucos dias, e a segunda e a terceira foram desenvolvidas por agentes de IA trabalhando em paralelo. Cada versão está preservada no histórico do Git, o que permite comparar todas com as mesmas medidas.</p>
+
+<table>
+<caption>Versões do MAPAS estudadas neste trabalho</caption>
+<thead><tr><th>Versão</th><th>Commit</th><th>Conteúdo</th></tr></thead>
+<tbody>
+<tr><td>v1</td><td><code>d69a129</code></td><td>Primeira versão jogável em cooperação online</td></tr>
+<tr><td>v2</td><td><code>1cc359b</code></td><td>Masmorra, chefes, mochila, progressão e modo competitivo; desenvolvida em pacotes paralelos</td></tr>
+<tr><td>v3</td><td><code>e4c97eb</code></td><td>Versão para celular, armas com formato de golpe e magias</td></tr>
+<tr><td>v3 + ES</td><td>branch deste trabalho</td><td>Regras de arquitetura verificadas por teste, análise estática e cobertura na integração contínua</td></tr>
+</tbody>
+</table>
+
+<h3>Objetivos e organização</h3>
+
+<p>Os objetivos são apresentar os fundamentos dos dois temas, segundo a literatura e as normas da área, e aplicá-los ao MAPAS: descrever duas decisões arquiteturais centrais e seus custos, verificar com dados do histórico se elas se mantiveram ao longo das versões e mostrar, no código-fonte, como uma regra de arquitetura passou a ser protegida por um teste automatizado.</p>
+
+<p>Os Capítulos 2 e 3 tratam de Arquitetura e de Qualidade de Software, cobrindo definição, histórico, importância, tecnologias, normas, profissões, certificações e impactos da Inteligência Artificial. O Capítulo 4 descreve a arquitetura do MAPAS e suas duas decisões principais. O Capítulo 5 apresenta a evidência de qualidade, as demais verificações e as limitações. O Capítulo 6 conclui.</p>

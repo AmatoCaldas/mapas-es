@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>DCC061 – Arquitetura e Qualidade de Software – MAPAS</title>
+<style>
+  /* 14 slides 16:9 para ≈ 18 min. Roteiro, tempos e preparação da demo: engsoft/LEIAME.md.
+     Cada título afirma a conclusão do slide; o corpo é a evidência. */
+  @page { size: 1280px 720px; margin: 0; }
+  :root {
+    --tinta: #14171f; --suave: #5b6070; --fundo: #fbfaf7; --linha: #e3e1da; --cartao: #ffffff;
+    --noite: #13233a; --ouro: #f2a33a;
+    --arq: #2a78d6; --qual: #d9622b; --caso: #2f8a4a; --ruim: #c9372c; --bom: #2f8a4a;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--tinta); background: #fff; }
+  .slide { width: 1280px; height: 720px; padding: 54px 72px 70px; position: relative; overflow: hidden;
+           break-after: page; background: var(--fundo); display: flex; flex-direction: column; }
+  .rotulo { font-size: 15px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+  .rotulo.arq { color: var(--arq); } .rotulo.qual { color: var(--qual); } .rotulo.caso { color: var(--caso); }
+  h1 { font-size: 54px; line-height: 1.08; margin: 0 0 18px; letter-spacing: -.01em; }
+  h2 { font-size: 40px; line-height: 1.15; margin: 0 0 26px; letter-spacing: -.01em; }
+  p, li { font-size: 24px; line-height: 1.4; margin: 0 0 12px; }
+  ul { margin: 0; padding-left: 28px; }
+  li { margin-bottom: 12px; }
+  .pq { font-size: 19px; color: var(--suave); line-height: 1.4; }
+  code { font-family: Menlo, Consolas, monospace; font-size: .86em; background: #eeece5; padding: 1px 6px; border-radius: 5px; }
+  pre { font: 19px/1.5 Menlo, Consolas, monospace; background: #f0eee7; border-radius: 12px; padding: 18px 22px; margin: 0; white-space: pre; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; flex: 1; min-height: 0; }
+  .cartao { background: var(--cartao); border: 1px solid var(--linha); border-radius: 14px; padding: 22px 26px; }
+  .cartao h3 { font-size: 22px; margin: 0 0 10px; }
+  .cartao p { font-size: 21px; margin: 0; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .ruim { color: var(--ruim); } .bom { color: var(--bom); }
+  .term { background: #0f1218; color: #e7e9ee; border-radius: 12px; padding: 20px 24px; font: 21px/1.55 Menlo, Consolas, monospace; white-space: pre; }
+  .term .c { color: #8b93a3; } .term .r { color: #ff8b80; } .term .g { color: #7ee08f; } .term .y { color: #ffd479; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--linha); vertical-align: top; font-size: 20px; line-height: 1.35; }
+  th { color: var(--suave); font-weight: 600; font-size: 17px; text-transform: uppercase; letter-spacing: .05em; }
+  .fala { display: none; }    /* anotação para quem apresenta; o roteiro completo está no LEIAME */
+
+  /* barra do roteiro: em que bloco da apresentação estamos (preenchida pelo script no fim) */
+  .roteiro { position: absolute; left: 72px; right: 72px; bottom: 24px; display: flex; gap: 8px; font-size: 13px; color: #a3a6ae; }
+  .roteiro span { flex: 1; border-top: 3px solid #e2e0d9; padding-top: 6px; }
+  .roteiro span.atual { border-color: var(--ouro); color: var(--tinta); font-weight: 700; }
+  .roteiro b { position: absolute; right: -40px; top: 9px; font-weight: 400; color: #a3a6ae; }
+
+  /* capa e fechamento: arte do menu do jogo */
+  .capa { background: var(--noite) center/cover no-repeat; color: #fff; justify-content: center; padding-left: 80px; }
+  .capa::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,18,32,.94) 0%, rgba(10,18,32,.8) 48%, rgba(10,18,32,.1) 100%); }
+  .capa > * { position: relative; }
+  .capa .logo { width: 384px; image-rendering: pixelated; margin-bottom: 26px; }
+  .capa h1 { color: #fff; font-size: 50px; }
+  .capa p { color: #d6deea; font-size: 22px; }
+  .capa code { background: rgba(255,255,255,.14); color: #fff; }
+  .escuro { background: var(--noite); color: #fff; }
+  .escuro h2 { color: #fff; }
+  .escuro .roteiro span { border-color: #2c3e58; color: #6f7f96; }
+  .escuro .roteiro span.atual { border-color: var(--ouro); color: #fff; }
+
+  .linha-tempo { display: flex; margin-top: auto; border-top: 2px solid var(--linha); padding-top: 18px; gap: 14px; }
+  .linha-tempo div { flex: 1; font-size: 17px; color: var(--suave); line-height: 1.35; }
+  .linha-tempo b { display: block; color: var(--tinta); font-size: 19px; margin-bottom: 4px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chips span { font-size: 18px; padding: 7px 14px; border-radius: 99px; background: #eceae3; color: var(--suave); }
+  .chips span.on { background: #fde3cf; color: #8a3410; font-weight: 600; }
+  .fluxo { display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+  .fluxo .caixa { border-radius: 12px; padding: 14px 18px; font-size: 20px; font-family: Menlo, Consolas, monospace; }
+  .num-grande { font-size: 40px; font-weight: 800; text-align: center !important; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+
+<!-- 1 · capa -->
+<section class="slide capa" data-bloco="0" style="background-image:url({{IMG:projeto/jogo/cliente/public/assets/ui/fundo_menu.png}});image-rendering:pixelated">
+  <img class="logo" src="{{IMG:projeto/jogo/cliente/public/assets/ui/logo.png}}" alt="MAPAS">
+  <h1>Arquitetura de Software<br>e Qualidade de Software</h1>
+  <p>Estudo de caso: o MAPAS, um jogo em que o banco de dados é o árbitro</p>
+  <p style="margin-top:34px;font-size:19px">[Integrantes do grupo]<br>UFJF · DCC061 – Engenharia de Software · Prof. Fabrício Martins Mendonça</p>
+</section>
+
+<!-- 2 · a pergunta -->
+<section class="slide" data-bloco="1">
+  <div class="cols" style="grid-template-columns: 1fr 1.15fr; gap: 40px; align-items: center">
+    <div>
+      <div class="rotulo caso">A pergunta do trabalho</div>
+      <h2 style="font-size:38px">O que mantém as decisões de arquitetura de pé quando o código cresce rápido — <span style="color:var(--qual)">inclusive escrito por IA?</span></h2>
+      <p class="pq">Arquitetura decide a estrutura; qualidade garante e mede. Por isso os dois temas juntos.</p>
+    </div>
+    <div>
+      <img src="{{IMG:engsoft/figuras/partida.jpg}}" alt="Partida do MAPAS" style="width:100%;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18)">
+      <p class="pq" style="margin-top:12px">MAPAS: cooperativo por turnos, até 4 pessoas, no navegador. Três versões em poucos dias — <strong>v2 e v3 feitas por agentes de IA em paralelo</strong>.</p>
+    </div>
+  </div>
+  <div class="fala">1 min</div>
+</section>
+
+<!-- 3 · arquitetura -->
+<section class="slide" data-bloco="2">
+  <div class="rotulo arq">Fundamentos · Arquitetura de Software</div>
+  <h2>Arquitetura são as decisões caras de mudar depois</h2>
+  <ul>
+    <li>Elementos, relações e os <strong>princípios</strong> que guiam projeto e evolução <span class="pq">— ISO/IEC/IEEE 42010</span></li>
+    <li>É ela que define os <strong>atributos de qualidade</strong>: desempenho, segurança, manutenibilidade</li>
+    <li>Toda decisão é um <strong>trade-off</strong> — o valor está em escolher o custo conscientemente</li>
+    <li>O risco: <strong>erosão</strong>, quando o código passa a violar a arquitetura planejada</li>
+  </ul>
+  <div class="linha-tempo">
+    <div><b>1968–72</b>Camadas (Dijkstra) e ocultação de informação (Parnas)</div>
+    <div><b>1992–96</b>Nasce a disciplina: Perry &amp; Wolf, Shaw &amp; Garlan</div>
+    <div><b>2000</b>Primeira norma de descrição: IEEE 1471 → 42010</div>
+    <div><b>2005–11</b>Arquitetura hexagonal; registros de decisão (ADRs)</div>
+    <div><b>2017</b><em>Fitness functions</em>: arquitetura verificada por teste</div>
+  </div>
+  <div class="fala">1,5 min</div>
+</section>
+
+<!-- 4 · qualidade -->
+<section class="slide" data-bloco="2">
+  <div class="rotulo qual">Fundamentos · Qualidade de Software</div>
+  <h2>Qualidade se garante no processo e se controla no produto</h2>
+  <div class="cols" style="flex:0 0 auto;gap:24px">
+    <div class="cartao"><h3>Garantia — previne</h3><p>Padrões, revisão, contrato antes do código. Pergunta: <em>estamos construindo do jeito certo?</em></p></div>
+    <div class="cartao"><h3>Controle — detecta</h3><p>Testes, análise estática, tipos. Defeito achado cedo custa menos: <strong>shift left</strong>.</p></div>
+  </div>
+  <p class="pq" style="margin:26px 0 12px">ISO/IEC 25010:2023 — as 9 características de produto (em destaque, as 4 que o MAPAS evidencia)</p>
+  <div class="chips">
+    <span class="on">Adequação funcional</span><span>Eficiência de desempenho</span><span>Compatibilidade</span>
+    <span>Capacidade de interação</span><span class="on">Confiabilidade</span><span class="on">Segurança</span>
+    <span class="on">Manutenibilidade</span><span>Flexibilidade</span><span>Proteção contra danos</span>
+  </div>
+  <p class="pq" style="margin-top:auto">Da manufatura (Shewhart, Deming) aos modelos de produto (McCall, Boehm, ISO 9126) e ao teste no dia a dia (ágil, TDD, integração contínua).</p>
+  <div class="fala">1,5 min</div>
+</section>
+
+<!-- 5 · panorama -->
+<section class="slide" data-bloco="2">
+  <h2>Ferramentas, normas, mercado e IA</h2>
+  <table>
+    <tr><th style="width:18%"></th><th>Arquitetura</th><th>Qualidade</th></tr>
+    <tr><td><strong>Ferramentas</strong></td><td>C4, ADRs, testes de arquitetura</td><td>pytest, Ruff, TypeScript, GitHub Actions</td></tr>
+    <tr><td><strong>Normas</strong></td><td>ISO/IEC/IEEE 42010 · TOGAF</td><td>ISO/IEC 25010 · 29119 · CMMI / MPS.BR</td></tr>
+    <tr><td><strong>Profissões</strong></td><td>arquiteto de software, de soluções, corporativo</td><td>QA, SDET, engenheiro de qualidade, SRE</td></tr>
+    <tr><td><strong>Certificações</strong></td><td>iSAQB CPSA · TOGAF · AWS / Azure / GCP <span class="pq">(opcionais)</span></td><td>ISTQB CTFL (BSTQB) · ASQ CSQE <span class="pq">(opcionais)</span></td></tr>
+    <tr style="background:#fff4e8"><td><strong>IA</strong></td><td>código gerado em volume <strong>acelera a erosão</strong></td><td>mais código a verificar → <strong>verificação automática</strong> pesa mais</td></tr>
+  </table>
+  <p class="pq" style="margin-top:auto">A última linha é exatamente o que aconteceu no MAPAS.</p>
+  <div class="fala">1 min</div>
+</section>
+
+<!-- 6 · visão geral -->
+<section class="slide" data-bloco="3">
+  <div class="rotulo caso">Arquitetura do MAPAS</div>
+  <h2>O cliente só manda a intenção — quem decide é o banco</h2>
+  <div class="fig" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:0">
+    <div style="width:86%">{{FIG:conteineres.svg}}</div>
+  </div>
+  <div class="fala">1 min</div>
+</section>
+
+<!-- 7 · decisão 1 -->
+<section class="slide" data-bloco="3">
+  <div class="rotulo caso">Decisão 1</div>
+  <h2>O PostgreSQL valida as regras do jogo</h2>
+  <div class="fig" style="width:94%;margin:-6px auto 0">{{FIG:jogada_slide.svg}}</div>
+  <div class="cols" style="gap:22px;flex:0 0 auto;margin-top:14px">
+    <div class="cartao" style="padding:16px 22px"><h3>Por quê</h3><p>4 jogadores agem ao mesmo tempo: a transação resolve a disputa sem trava escrita à mão.</p></div>
+    <div class="cartao" style="padding:16px 22px;border-color:#f3c9b5"><h3 class="ruim">Custo</h3><p>PL/pgSQL é difícil de testar; mudar uma regra exige migração nova.</p></div>
+  </div>
+  <div class="fala">1,5 min</div>
+</section>
+
+<!-- 8 · decisão 2 -->
+<section class="slide" data-bloco="3">
+  <div class="rotulo caso">Decisão 2</div>
+  <h2>Só um módulo fala com o banco</h2>
+  <div class="cols" style="grid-template-columns:1.25fr 1fr;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <pre><span style="color:#8b93a3"># motor/banco.py</span>
+@contextmanager
+def transacao():
+    ...
+    except psycopg2.IntegrityError as erro:
+        raise RegraErro(...)   <span style="color:#8b93a3"># frase do jogo</span></pre>
+      <p class="pq">O jogador nunca vê <em>"duplicate key value violates…"</em>: o adaptador traduz, impõe tempo-limite e devolve a conexão.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="cartao"><h3 class="bom">Ganho</h3><p>Trocar driver ou política de conexão mexe em <strong>1 arquivo</strong>.</p></div>
+      <div class="cartao" style="border-color:#f3c9b5"><h3 class="ruim">Custo</h3><p>Todo acesso novo passa por esse funil.</p></div>
+      <pre style="font-size:16px">assert _quem_importa("psycopg2") \
+    == {"banco"}      <span style="color:#8b93a3"># vira teste</span></pre>
+    </div>
+  </div>
+  <div class="fala">1,5 min</div>
+</section>
+
+<!-- 9 · a regra do cliente -->
+<section class="slide" data-bloco="4">
+  <div class="rotulo qual">Código e qualidade</div>
+  <h2>A mesma ideia no cliente: só o <code>api.ts</code> faz HTTP</h2>
+  <div class="cols" style="grid-template-columns:1fr 1.25fr;gap:40px">
+    <div class="fluxo">
+      <div class="caixa" style="background:#e8f1fb;border:1px solid #b9d2ef">telas do jogo</div>
+      <div style="text-align:center;font-size:26px;color:var(--suave)">↓</div>
+      <div class="caixa" style="background:#fff3df;border:1px solid #f0cf9a"><strong>api.ts</strong> · token, formato, erro</div>
+      <div style="text-align:center;font-size:26px;color:var(--suave)">↓</div>
+      <div class="caixa" style="background:#e9f5ea;border:1px solid #b7dcbc">servidor</div>
+      <p class="pq" style="margin-top:8px">Até a v3, essa regra existia <strong>só no documento</strong>.</p>
+    </div>
+    <pre style="align-self:center"><span style="color:#8b93a3">// cliente/src/arquitetura.teste.mjs</span>
+test("só o api.ts faz HTTP", () =&gt; {
+  const usam = TODOS.filter((r) =&gt;
+    /\bfetch\s*\(/.test(ler(r)));
+  assert.deepEqual(usam, ["api.ts"]);
+});</pre>
+  </div>
+  <div class="fala">1 min · abrir o arquivo no editor</div>
+</section>
+
+<!-- 10 · demo -->
+<section class="slide escuro" data-bloco="4">
+  <div class="rotulo" style="color:var(--ouro)">Demonstração ao vivo · ≈ 3 min</div>
+  <h2>A mesma regra, rodada antes e depois</h2>
+  <div class="term" style="font-size:23px"><span class="c"># 1 · o teste da regra (no editor)</span>
+projeto/jogo/cliente/src/arquitetura.teste.mjs
+
+<span class="c"># 2 · rodar na v3 publicada e no código atual</span>
+<span class="y">bash engsoft/demo/erosao.sh</span>
+
+<span class="c"># 3 · a correção</span>
+git diff 9ab1263 -- projeto/jogo/cliente/src/jogo/pvpve/lobby.ts
+
+<span class="c"># 4 · o lado do servidor (sem banco)</span>
+python -m pytest testes/test_arquitetura.py -q</div>
+</section>
+
+<!-- 11 · resultado -->
+<section class="slide" data-bloco="4">
+  <div class="rotulo qual">Código e qualidade</div>
+  <h2>O teste achou duas cópias que ninguém tinha notado</h2>
+  <div class="cols" style="gap:30px;flex:0 0 auto">
+    <div>
+      <p class="pq"><strong class="ruim">ANTES</strong> — v3 publicada (<code>9ab1263</code>)</p>
+      <div class="term">not ok 2 - só o api.ts faz HTTP
+<span class="r">  +  'jogo/pvpve/lobby.ts',
+  +  'ui/progresso.ts'</span>
+<span class="r"># fail 1</span></div>
+    </div>
+    <div>
+      <p class="pq"><strong class="bom">DEPOIS</strong> — este trabalho</p>
+      <div class="term"><span class="g">ok 2 - só o api.ts faz HTTP</span>
+
+# pass 14
+<span class="g"># fail 0</span></div>
+    </div>
+  </div>
+  <div class="cols" style="grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:24px;flex:0 0 auto">
+    <div class="cartao"><h3>A causa</h3><p>Um agente copiou a função: <em>"este é o mesmo, enxuto"</em>.</p></div>
+    <div class="cartao"><h3>Por que passou</h3><p>O jogo funcionava: defeito de <strong>estrutura</strong>, não de comportamento.</p></div>
+    <div class="cartao"><h3>A correção</h3><p><code>api.ts</code> exporta <code>pedir()</code>; o teste roda em todo PR e <strong>não deixa voltar</strong>.</p></div>
+  </div>
+  <div class="fala">2 min</div>
+</section>
+
+<!-- 12 · medidas -->
+<section class="slide" data-bloco="5">
+  <div class="rotulo qual">Resultados</div>
+  <h2>O servidor aguentou sozinho; o cliente só voltou quando virou teste</h2>
+  <table>
+    <tr><th>Medida <span style="text-transform:none">(esperado: 1)</span></th><th class="num-grande" style="font-size:17px">v1</th><th class="num-grande" style="font-size:17px">v2</th><th class="num-grande" style="font-size:17px">v3</th><th class="num-grande" style="font-size:17px">depois</th></tr>
+    <tr><td style="font-size:23px">Módulos do servidor que acessam o banco</td><td class="num-grande">1</td><td class="num-grande">1</td><td class="num-grande">1</td><td class="num-grande">1</td></tr>
+    <tr><td style="font-size:23px">Arquivos do cliente que fazem HTTP</td><td class="num-grande">1</td><td class="num-grande ruim">3</td><td class="num-grande ruim">3</td><td class="num-grande bom">1</td></tr>
+  </table>
+  <p style="margin-top:28px">O código cresceu <strong>14×</strong> (1,7 mil → 23 mil linhas). A fronteira do cliente quebrou <strong>na v2</strong> — justo quando entraram os agentes em paralelo.</p>
+  <p class="pq" style="margin-top:auto">Cada versão extraída do Git e medida com a mesma régua: <code>engsoft/evolucao/medir.py</code></p>
+  <div class="fala">1 min</div>
+</section>
+
+<!-- 13 · limites e conclusão -->
+<section class="slide" data-bloco="5">
+  <h2>Decisões fortes, com custo conhecido — e que viram teste</h2>
+  <div class="cols" style="gap:30px;flex:0 0 auto;align-items:start">
+    <div class="cartao" style="border-color:#f3c9b5">
+      <h3>O que ainda falta</h3>
+      <ul style="padding-left:22px">
+        <li style="font-size:21px">Camada visual quase sem teste (telas &lt; 30%) → E2E no navegador</li>
+        <li style="font-size:21px"><code>pvpve._acao_vista</code>: complexidade 36 (média 3,8) → refatorar</li>
+        <li style="font-size:21px">Cobertura do servidor: medida no CI, patamar a definir</li>
+      </ul>
+    </div>
+    <div class="cartao" style="border-color:#bfe0c6">
+      <h3>A resposta à pergunta</h3>
+      <ul style="padding-left:22px">
+        <li style="font-size:21px">Poucas decisões <strong>explícitas</strong>, com custo assumido</li>
+        <li style="font-size:21px">Regra só no documento <strong>erode</strong>; regra no CI, não</li>
+        <li style="font-size:21px">Com IA escrevendo código, quem dá confiança é a <strong>verificação automática</strong></li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:40px;font-size:30px;line-height:1.3;border-left:5px solid var(--ouro);padding-left:22px"><strong>Arquitetura</strong> escolhe as fronteiras; <strong>qualidade</strong> garante que elas continuem lá.</p>
+  <div class="fala">2 min</div>
+</section>
+
+<!-- 14 · obrigado -->
+<section class="slide capa" data-bloco="0" style="background-image:url({{IMG:projeto/jogo/cliente/public/assets/ui/fundo_menu.png}});image-rendering:pixelated">
+  <img class="logo" src="{{IMG:projeto/jogo/cliente/public/assets/ui/logo.png}}" alt="MAPAS" style="width:288px">
+  <h1>Obrigado! Perguntas?</h1>
+  <p style="margin-top:18px">Código: <strong>github.com/AmatoCaldas/mapas-es</strong> · recorte público para a disciplina</p>
+  <p>Demo: <code>bash engsoft/demo/erosao.sh</code></p>
+  <p>Decisões: <code>projeto/jogo/docs/arquitetura/adr</code></p>
+</section>
+
+<script>
+  // Barra do roteiro em cada slide de conteúdo: os 5 blocos do LEIAME, com o atual em destaque.
+  const BLOCOS = ["Problema", "Fundamentos", "Arquitetura do MAPAS", "Código e qualidade", "Resultados"];
+  document.querySelectorAll(".slide").forEach((s, i) => {
+    const bloco = Number(s.dataset.bloco);
+    if (!bloco) return;
+    const barra = document.createElement("div");
+    barra.className = "roteiro";
+    barra.innerHTML = BLOCOS.map((b, k) => `<span class="${k + 1 === bloco ? "atual" : ""}">${b}</span>`).join("")
+      + `<b>${i + 1}</b>`;
+    s.appendChild(barra);
+  });
+</script>
+</body>
+</html>

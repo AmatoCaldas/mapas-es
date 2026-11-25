@@ -1,0 +1,84 @@
+<h2>Estudo de caso: qualidade no MAPAS</h2>
+
+<p>Este capítulo aplica os conceitos do Capítulo 3. Em vez de listar todas as verificações do projeto, ele se concentra numa evidência principal — uma regra arquitetural que um teste automatizado encontrou violada — e depois resume as demais verificações, as características de qualidade atendidas e as limitações conhecidas. O código citado está no repositório; os comandos para reproduzir cada resultado estão na Seção 5.5.</p>
+
+<h3>Da regra escrita à regra verificada</h3>
+
+<p>Até a v3, as fronteiras do MAPAS eram protegidas apenas por <em>garantia de qualidade</em>: um documento de contrato, revisão dos <em>merges</em> e a disciplina de quem escrevia o código. Faltava o <em>controle</em>, isto é, algo que examinasse o produto e acusasse a violação. Este trabalho acrescentou esse controle na forma de <em>funções de aptidão</em> (FORD; PARSONS; KUA, 2017): testes que leem o código-fonte e verificam as regras de arquitetura em todo <em>pull request</em>, sem precisar de banco de dados nem de navegador. São dois arquivos, um para cada lado:</p>
+
+<ul>
+<li><code>projeto/jogo/servidor/testes/test_arquitetura.py</code> monta o grafo de importações do servidor a partir da árvore sintática de cada módulo e verifica nove regras, entre elas a da Decisão 2 (Seção 4.3) e a de que nenhuma migração publicada foi alterada.</li>
+<li><code>projeto/jogo/cliente/src/arquitetura.teste.mjs</code> verifica que só <code>api.ts</code> faz HTTP, que só <code>jogo/partida.ts</code> abre WebSocket, que a biblioteca Phaser fica dentro da pasta <code>jogo/</code> e que os módulos de regra pura não acessam a interface.</li>
+</ul>
+
+<h3>Evidência principal: o teste que encontrou a erosão</h3>
+
+<p><strong>A regra.</strong> No cliente, toda requisição HTTP passa por <code>api.ts</code>, que acrescenta o token de sessão, converte a resposta e transforma o erro do servidor numa mensagem para o jogador. Assim, mudar a autenticação ou o tratamento de erro afeta um único arquivo.</p>
+
+<p><strong>O teste.</strong> A regra foi escrita como um teste que procura chamadas <code>fetch</code> em todos os arquivos TypeScript do cliente e exige que a lista seja exatamente <code>["api.ts"]</code>:</p>
+
+<pre><code>test("só o api.ts faz HTTP (fetch): token, erro e formato num lugar só", () =&gt; {
+  const usam = TODOS.filter((r) =&gt; /\bfetch\s*\(/.test(semComentarios(ler(r))));
+  assert.deepEqual(usam, ["api.ts"]);
+});</code></pre>
+
+<p><strong>O resultado.</strong> Executado sobre o código da v3 publicada (<em>commit</em> <code>9ab1263</code>), o teste falhou e apontou dois arquivos além do esperado:</p>
+
+<pre><code>not ok 2 - só o api.ts faz HTTP (fetch): token, erro e formato num lugar só
+    +   'jogo/pvpve/lobby.ts',
+    +   'ui/progresso.ts'
+# pass 13
+# fail 1</code></pre>
+
+<p>O primeiro arquivo trazia o próprio comentário do pacote que o criou, explicando que o <code>api.ts</code> não exportava a função de requisição e que aquela era "o mesmo, enxuto". O segundo fazia a requisição com o token montado à mão. Os dois funcionavam, e por isso nenhum teste funcional nem nenhum jogador havia percebido o problema: o defeito não era de comportamento, mas de estrutura.</p>
+
+<p><strong>A correção.</strong> A função de requisição do <code>api.ts</code> passou a ser exportada, e as duas cópias foram removidas — <code>lobby.ts</code> e <code>progresso.ts</code> agora chamam <code>pedir()</code>. Depois da correção, o mesmo teste passa (14 de 14), assim como a checagem de tipos e os 486 casos de teste do cliente.</p>
+
+<p><strong>A proteção.</strong> O teste roda em todo <em>pull request</em>, e o ramo principal só aceita alterações com a integração contínua aprovada. Uma nova cópia de <code>fetch</code> fora do <code>api.ts</code> passa a ser recusada antes de chegar ao código principal. Para garantir que os testes de arquitetura não passam por engano, cada regra também foi testada no sentido inverso: introduzir de propósito uma importação proibida ou alterar uma migração publicada faz o teste correspondente falhar.</p>
+
+<p>Esse caso reúne os dois temas do trabalho: uma decisão de arquitetura (Capítulo 2) só se manteve quando passou a ser verificada por um mecanismo de controle de qualidade (Capítulo 3).</p>
+
+<h3>As demais verificações</h3>
+
+<p>A evidência principal é uma das verificações executadas pela integração contínua do projeto, no GitHub Actions (GITHUB, 2026). O Quadro a seguir resume as demais.</p>
+
+<table>
+<caption>Verificações executadas em todo pull request</caption>
+<thead><tr><th>Verificação</th><th>Ferramenta</th><th>O que recusa</th></tr></thead>
+<tbody>
+<tr><td>Tipos</td><td>TypeScript (modo estrito)</td><td>Erro de tipo no cliente</td></tr>
+<tr><td>Análise estática</td><td>Ruff (ASTRAL, 2026)</td><td>Nome indefinido, importação ou variável sem uso, armadilhas comuns de Python</td></tr>
+<tr><td>Regras de arquitetura</td><td><code>test_arquitetura.py</code>, <code>arquitetura.teste.mjs</code></td><td>Violação de camada, de fronteira ou de migração publicada</td></tr>
+<tr><td>Testes funcionais</td><td>pytest e o executor do Node.js</td><td>Falha em algum dos 741 casos do servidor (a maioria contra um PostgreSQL real) ou dos 486 do cliente</td></tr>
+<tr><td>Cobertura do cliente</td><td>Cobertura nativa do Node.js</td><td>Queda abaixo de 78% das linhas, 90% dos ramos ou 79% das funções</td></tr>
+</tbody>
+</table>
+
+<p>O patamar de cobertura do cliente funciona como uma <strong>catraca</strong>: é o valor medido no início deste trabalho, arredondado para baixo. Uma alteração que aumente a cobertura pode elevar o patamar; nenhuma pode reduzi-lo. A complexidade ciclomática (McCABE, 1976), medida com a ferramenta radon (LACCHIA, 2023), é publicada no resumo de cada execução sem bloqueá-la; a média do servidor é 3,8.</p>
+
+<h3>Características da ISO/IEC 25010 selecionadas</h3>
+
+<p>O Quadro a seguir relaciona as decisões e verificações descritas às características da ISO/IEC 25010 que elas atendem mais diretamente. Trata-se de uma <strong>seleção</strong>: das nove características do modelo apresentadas no Capítulo 3, quatro foram escolhidas por terem evidência direta neste estudo de caso; as demais não foram avaliadas.</p>
+
+<table>
+<caption>Características selecionadas da ISO/IEC 25010 e as evidências no MAPAS</caption>
+<thead><tr><th>Característica</th><th>Evidência no projeto</th></tr></thead>
+<tbody>
+<tr><td>Adequação funcional</td><td>Regras de negócio no banco (Decisão 1), testadas contra um PostgreSQL real</td></tr>
+<tr><td>Segurança</td><td>Servidor autoritativo; mensagens do banco traduzidas pelo adaptador, sem expor o esquema (Decisão 2)</td></tr>
+<tr><td>Confiabilidade</td><td>Tempo-limite das consultas e devolução das conexões concentrados no adaptador</td></tr>
+<tr><td>Manutenibilidade</td><td>Fronteiras verificadas por teste; erosão encontrada e corrigida; análise estática e cobertura com catraca</td></tr>
+</tbody>
+</table>
+
+<h3>Limitações e como reproduzir</h3>
+
+<p>Os resultados têm limites que precisam ser declarados:</p>
+<ol>
+<li><strong>A camada visual quase não é testada.</strong> A cobertura do cliente só considera os arquivos que algum teste carrega. Os módulos de regra estão bem cobertos, mas telas que dependem do navegador, como <code>mochila/visual.ts</code> e <code>mochila/dica.ts</code>, ficam abaixo de 30%, e a cena do jogo nem entra na conta. O próximo passo seria um teste de ponta a ponta no navegador, por exemplo com Playwright.</li>
+<li><strong>Há uma função muito complexa.</strong> A função <code>_acao_vista</code>, do módulo <code>pvpve.py</code>, tem complexidade ciclomática 36, quase dez vezes a média do servidor, e é o maior risco de manutenção identificado.</li>
+<li><strong>A cobertura do servidor ainda não tem patamar.</strong> Ela passou a ser medida na integração contínua, e o patamar será definido a partir da primeira medição.</li>
+<li><strong>As regras de arquitetura verificam importações e chamadas no texto do código.</strong> Uma violação feita de forma indireta, por exemplo com importação dinâmica, não seria detectada.</li>
+</ol>
+
+<p>O código entregue com este trabalho está num recorte público do repositório (<code>github.com/AmatoCaldas/mapas-es</code>): as regras de arquitetura, o adaptador do banco, um trecho das regras em PL/pgSQL, a configuração da integração contínua, a correção e as saídas registradas. O restante do jogo e o histórico das versões ficam no repositório privado, que pode ser aberto à avaliação mediante solicitação. Com o repositório completo, os números deste capítulo e do anterior podem ser reproduzidos: <code>engsoft/evolucao/medir.py</code> refaz a Tabela do Capítulo 4; <code>engsoft/demo/erosao.sh</code> executa a mesma regra antes e depois da correção e mostra a falha e a aprovação; e <code>npm run cobertura</code>, na pasta do cliente, mede a cobertura.</p>

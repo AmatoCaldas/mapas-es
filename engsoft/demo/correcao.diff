@@ -1,0 +1,77 @@
+diff --git a/projeto/jogo/cliente/src/jogo/pvpve/lobby.ts b/projeto/jogo/cliente/src/jogo/pvpve/lobby.ts
+index d1fc476..417a364 100644
+--- a/projeto/jogo/cliente/src/jogo/pvpve/lobby.ts
++++ b/projeto/jogo/cliente/src/jogo/pvpve/lobby.ts
+@@ -1,5 +1,5 @@
+ import "./lobby.css";
+-import { sessao } from "../../api";
++import { pedir } from "../../api";
+ import { esc } from "../../html";
+ import type { GrupoAberto, PartidaAberta } from "../../tipos";
+ import {
+@@ -14,27 +14,14 @@ export type { EscolhaGrupo } from "./regras";
+ 
+ export interface NovaSessaoPvpve { regiao_id: number; classe_id: number; segundos_turno: number; }
+ 
+-// O api.ts não exporta o `pedir`; este é o mesmo, enxuto (pedido de contrato: levar para lá).
+-async function pedir<T>(caminho: string, corpo: unknown): Promise<T> {
+-  const s = sessao();
+-  const r = await fetch(caminho, {
+-    method: "POST",
+-    headers: { "Content-Type": "application/json", ...(s ? { Authorization: `Bearer ${s.token}` } : {}) },
+-    body: JSON.stringify(corpo),
+-  });
+-  const dados = await r.json().catch(() => ({}));
+-  if (!r.ok) throw new Error(dados.erro ?? dados.detail ?? `erro ${r.status}`);
+-  return dados as T;
+-}
+-
+ /** Cria a sessão (você vira o grupo 1). O timer é obrigatório: no mínimo 30 s. */
+ export function criarSessaoPvpve(d: NovaSessaoPvpve): Promise<{ partida_id: number }> {
+-  return pedir("/api/partidas", { ...d, segundos_turno: Math.max(SEGUNDOS_MIN, d.segundos_turno), modo: "PVPVE" });
++  return pedir("POST", "/api/partidas", { ...d, segundos_turno: Math.max(SEGUNDOS_MIN, d.segundos_turno), modo: "PVPVE" });
+ }
+ 
+ /** Entra num grupo com vaga (`grupo: N`) ou abre um grupo novo (`grupo: "novo"`). */
+ export function entrarPvpve(partida: number, classe_id: number, grupo: EscolhaGrupo): Promise<{ partida_id: number }> {
+-  return pedir(`/api/partidas/${partida}/entrar`, corpoEntrada(classe_id, grupo));
++  return pedir("POST", `/api/partidas/${partida}/entrar`, corpoEntrada(classe_id, grupo));
+ }
+ 
+ export const ehSessaoPvpve = (p: PartidaAberta): boolean => p.modo === "PVPVE";
+diff --git a/projeto/jogo/cliente/src/ui/progresso.ts b/projeto/jogo/cliente/src/ui/progresso.ts
+index c51c048..e4ada4a 100644
+--- a/projeto/jogo/cliente/src/ui/progresso.ts
++++ b/projeto/jogo/cliente/src/ui/progresso.ts
+@@ -1,7 +1,7 @@
+ /** Progressão do jogador (nível, XP, ouro) vinda de GET /api/progresso (pacote P, onda 2).
+  *  Servidor sem a rota (404), fora do ar ou com resposta estranha: devolve null e a interface
+  *  esconde o bloco — nunca mostra número inventado. */
+-import { sessao } from "../api";
++import { pedir as pedirApi, sessao } from "../api";
+ 
+ export interface Progresso { nivel: number; xp: number; xp_nivel: number; xp_proximo: number; ouro: number; }
+ 
+@@ -24,11 +24,9 @@ export function fracaoXp(p: Progresso): number {
+   return p.xp_proximo > 0 ? Math.min(1, p.xp_nivel / p.xp_proximo) : 1;
+ }
+ 
+-async function pedir(token: string): Promise<Progresso | null> {
++async function pedir(): Promise<Progresso | null> {
+   try {
+-    const r = await fetch("/api/progresso", { headers: { Authorization: `Bearer ${token}` } });
+-    if (!r.ok) return null;
+-    return normalizarProgresso(await r.json());
++    return normalizarProgresso(await pedirApi<unknown>("GET", "/api/progresso"));
+   } catch {
+     return null;
+   }
+@@ -40,7 +38,7 @@ export function buscarProgresso(novo = false): Promise<Progresso | null> {
+   if (!s) return Promise.resolve(null);
+   const agora = Date.now();
+   if (novo || !cache || cache.token !== s.token || agora - cache.quando > VALIDADE_MS) {
+-    cache = { quando: agora, token: s.token, valor: pedir(s.token) };
++    cache = { quando: agora, token: s.token, valor: pedir() };
+   }
+   return cache.valor;
+ }

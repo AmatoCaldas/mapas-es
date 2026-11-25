@@ -1,0 +1,66 @@
+<h2>Qualidade de Software</h2>
+
+<h3>Definição</h3>
+
+<p>Qualidade admite visões diferentes. Garvin (1984) identificou cinco, entre elas a baseada no usuário, a baseada na conformidade com especificações e a baseada no valor; Kitchenham e Pfleeger (1996) mostraram que essas visões se aplicam ao software e que muitas divergências sobre qualidade vêm de as partes adotarem visões diferentes sem perceber. Duas definições clássicas ilustram o contraste: qualidade como <em>conformidade com os requisitos</em> (CROSBY, 1979) e como <em>adequação ao uso</em> (JURAN; GRYNA, 1988). O glossário do IEEE combina as duas, definindo qualidade como o grau em que um sistema atende aos requisitos especificados e às necessidades e expectativas de clientes e usuários (INSTITUTE OF ELECTRICAL AND ELECTRONICS ENGINEERS, 1990).</p>
+
+<p>A norma ISO/IEC 25010 organiza essas noções num modelo de qualidade de produto. Na revisão de 2023, o modelo tem nove características: adequação funcional, eficiência de desempenho, compatibilidade, capacidade de interação, confiabilidade, segurança, manutenibilidade, flexibilidade e proteção contra danos (<em>safety</em>) (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 2023a). A literatura distingue ainda a <em>qualidade do produto</em>, observada no software entregue, da <em>qualidade do processo</em>, observada na forma de construí-lo (PRESSMAN; MAXIM, 2020).</p>
+
+<h3>Histórico</h3>
+
+<p>A preocupação sistemática com qualidade nasceu na manufatura, com o controle estatístico de processos de Shewhart (1931) e a tese de Deming (1986) de que a qualidade resulta da melhoria do processo, e não da inspeção do produto final. No software, os primeiros modelos de qualidade surgiram no fim da década de 1970 (McCALL; RICHARDS; WALTERS, 1977; BOEHM et al., 1978), junto com técnicas que permanecem em uso: as inspeções formais (FAGAN, 1976) e a complexidade ciclomática (McCABE, 1976).</p>
+
+<p>Nos anos 1990, a qualidade de processo ganhou modelos de maturidade, como o CMM e depois o CMMI (PAULK et al., 1993; CMMI PRODUCT TEAM, 2010), e a de produto ganhou a ISO/IEC 9126 (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 1991), substituída depois pela série ISO/IEC 25000. No Brasil, a SOFTEX criou em 2003 o MPS.BR, adaptado a pequenas e médias empresas. A partir dos anos 2000, os métodos ágeis, o Desenvolvimento Guiado por Testes (BECK, 2003) e a integração e entrega contínuas (HUMBLE; FARLEY, 2010) trouxeram o teste automatizado para o trabalho diário do desenvolvedor, e a pesquisa DORA mostrou que velocidade de entrega e estabilidade podem crescer juntas (FORSGREN; HUMBLE; KIM, 2018).</p>
+
+<h3>Importância para a Engenharia de Software</h3>
+
+<p>O argumento econômico clássico é que o custo de corrigir um defeito cresce conforme a fase em que ele é encontrado: um defeito descoberto em produção pode custar muitas vezes mais do que o mesmo defeito encontrado no projeto (BOEHM, 1981; BOEHM; BASILI, 2001). Daí o interesse em atividades aplicadas cedo, prática hoje chamada de <em>shift left</em>. Além do custo, a baixa manutenibilidade gera <em>dívida técnica</em>: atalhos tomados para entregar mais rápido cobram juros na forma de esforço adicional em toda mudança futura (CUNNINGHAM, 1992).</p>
+
+<p>Duas distinções organizam as atividades da área. A <strong>garantia da qualidade</strong> é preventiva e orientada ao processo — padrões, revisões, auditorias —, enquanto o <strong>controle da qualidade</strong> é detectivo e orientado ao produto — testes e inspeções (PRESSMAN; MAXIM, 2020). E a <strong>verificação</strong> pergunta se o produto está sendo construído corretamente, enquanto a <strong>validação</strong> pergunta se o produto certo está sendo construído (BOEHM, 1981). Para acompanhar a qualidade usam-se métricas como a complexidade ciclomática (McCABE, 1976), o índice de manutenibilidade (OMAN; HAGEMEISTER, 1992) e a cobertura de testes — esta com a ressalva de que cobertura alta, sozinha, não garante testes eficazes.</p>
+
+<h3>Tecnologias e ferramentas</h3>
+
+<p>A <em>pirâmide de testes</em> recomenda muitos testes de unidade, rápidos e baratos, uma quantidade intermediária de testes de integração e poucos testes de ponta a ponta (COHN, 2009). As ferramentas acompanham esses níveis:</p>
+<ul>
+<li><strong>Testes automatizados:</strong> pytest (Python), JUnit (Java) e o executor nativo do Node.js; Playwright e Cypress para testes de ponta a ponta no navegador.</li>
+<li><strong>Análise estática e de tipos:</strong> <em>linters</em> como Ruff (Python) e ESLint, plataformas como o SonarQube e verificadores de tipos como o do TypeScript.</li>
+<li><strong>Cobertura:</strong> coverage.py e ferramentas equivalentes para JavaScript.</li>
+<li><strong>Integração contínua e revisão:</strong> GitHub Actions, GitLab CI ou Jenkins executam todas as verificações a cada alteração; o fluxo de <em>pull request</em> exige aprovação humana antes da integração.</li>
+</ul>
+
+<h3>Padrões e normas</h3>
+
+<p>As normas da área tratam do produto, do processo ou de atividades específicas. As mais relevantes estão resumidas abaixo.</p>
+<ul>
+<li><strong>Produto:</strong> a série ISO/IEC 25000 (SQuaRE), com o modelo de qualidade da ISO/IEC 25010 e as medidas da ISO/IEC 25023 (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 2023a, 2016).</li>
+<li><strong>Processo:</strong> ISO/IEC/IEEE 12207, para o ciclo de vida do software (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 2017); CMMI e o modelo brasileiro MR-MPS-SW, que avaliam a maturidade de processos em níveis (ASSOCIAÇÃO PARA PROMOÇÃO DA EXCELÊNCIA DO SOFTWARE BRASILEIRO, 2021); e ISO 9001, com a ISO/IEC/IEEE 90003 orientando sua aplicação ao software.</li>
+<li><strong>Teste:</strong> ISO/IEC/IEEE 29119, com conceitos, processos e técnicas de teste (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 2022a).</li>
+</ul>
+
+<h3>Profissões</h3>
+
+<p>As funções de qualidade se distribuem entre teste do produto, automação e melhoria de processos, como mostra o Quadro a seguir. A tendência atual é que a responsabilidade pela qualidade seja compartilhada por toda a equipe, e não concentrada num setor de testes ao fim do ciclo.</p>
+
+<h3>Certificações</h3>
+
+<p>Nenhuma certificação da área é exigida por lei no Brasil. Elas são valorizadas pelo mercado e, no caso dos avaliadores de modelos de maturidade, são condição para conduzir avaliações oficiais. O ISTQB, cujas provas são aplicadas em português pelo BSTQB, tem o nível inicial CTFL (INTERNATIONAL SOFTWARE TESTING QUALIFICATIONS BOARD, 2023) e níveis avançados.</p>
+
+<table>
+<caption>Quadro: Profissões e certificações ligadas à qualidade de software</caption>
+<thead><tr><th>Profissão</th><th>Atuação</th><th>Certificações associadas</th></tr></thead>
+<tbody>
+<tr><td>Analista de QA ou de testes</td><td>Planeja e executa testes; torna requisitos testáveis</td><td>ISTQB CTFL e níveis avançados</td></tr>
+<tr><td>Engenheiro de automação de testes ou SDET</td><td>Constrói suítes automatizadas e a infraestrutura de teste no <em>pipeline</em></td><td>ISTQB (módulo de automação)</td></tr>
+<tr><td>Engenheiro de qualidade</td><td>Estratégia de qualidade: métricas, ferramentas e prevenção de defeitos</td><td>ASQ CSQE</td></tr>
+<tr><td>SRE (<em>Site Reliability Engineer</em>)</td><td>Confiabilidade em produção, monitoramento e resposta a incidentes (BEYER et al., 2016)</td><td>Certificações de provedores de nuvem</td></tr>
+<tr><td>Consultor ou avaliador de processos</td><td>Implanta e avalia modelos de maturidade</td><td>Avaliador credenciado MPS.BR (SOFTEX) ou CMMI</td></tr>
+</tbody>
+</table>
+
+<h3>Impactos da Inteligência Artificial</h3>
+
+<p>Como <strong>ferramenta</strong>, a IA gera casos de teste, revisa <em>pull requests</em> e explica alertas de análise estática. A geração automática de testes é anterior aos modelos de linguagem (FRASER; ARCURI, 2011), mas esbarra no <em>problema do oráculo</em>: para saber se um teste passou, é preciso saber o resultado correto (BARR et al., 2015). Um teste gerado a partir do próprio código tende a registrar o comportamento atual, inclusive os defeitos, como se fosse o esperado.</p>
+
+<p>Como <strong>risco</strong>, o código gerado pode conter defeitos e vulnerabilidades com aparência de código correto: Pearce et al. (2022) encontraram parcela significativa de soluções inseguras em programas produzidos por um assistente comercial. Quando o volume de código cresce mais rápido do que a capacidade de revisão humana, testes automatizados, análise estática e integração contínua passam a ser a principal barreira entre o código gerado e a produção.</p>
+
+<p>Como <strong>objeto</strong>, sistemas que usam IA são não determinísticos e dependem de dados. A ISO/IEC 25059 estende o modelo da ISO/IEC 25010 para sistemas de IA, e a ISO/IEC 42001 define um sistema de gestão de IA nas organizações (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 2023c, 2023d). No estudo de caso, a resposta adotada é a de que toda alteração, independentemente de quem ou do que a produziu, passa pelas mesmas verificações automáticas antes de ser integrada.</p>

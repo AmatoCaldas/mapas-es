@@ -1,0 +1,150 @@
+[
+  {
+    "nome": "v1",
+    "rev": "d69a129",
+    "resumo": "primeira fatia jogável em co-op + deploy",
+    "medidas": {
+      "data": "2026-10-03",
+      "commits": 8,
+      "loc_total": 1662,
+      "loc_servidor": 909,
+      "modulos_banco": [
+        "motor/banco.py"
+      ],
+      "arquivos_http": [
+        "api.ts"
+      ],
+      "loc_cliente": 753,
+      "modulos_motor": 8,
+      "arquivos_ts": 10,
+      "migracoes_jogo": 1,
+      "regras_rn": 18,
+      "gatilhos": 4,
+      "testes_servidor": 26,
+      "testes_cliente": 0,
+      "arquivos_teste": 2,
+      "testes_arquitetura": false,
+      "ci": false,
+      "docs_arquitetura": 1,
+      "radon": {
+        "funcoes": 83,
+        "cc_media": 3.37,
+        "cc_acima_de_10": 6,
+        "mi_media": 60.1
+      },
+      "ruff_achados": 1
+    }
+  },
+  {
+    "nome": "v2",
+    "rev": "1cc359b",
+    "resumo": "masmorra, chefes, mochila, progressão e PvPvE (3 ondas de agentes)",
+    "medidas": {
+      "data": "2026-10-04",
+      "commits": 68,
+      "loc_total": 15622,
+      "loc_servidor": 5681,
+      "modulos_banco": [
+        "motor/banco.py"
+      ],
+      "arquivos_http": [
+        "api.ts",
+        "jogo/pvpve/lobby.ts",
+        "ui/progresso.ts"
+      ],
+      "loc_cliente": 9941,
+      "modulos_motor": 19,
+      "arquivos_ts": 68,
+      "migracoes_jogo": 9,
+      "regras_rn": 35,
+      "gatilhos": 44,
+      "testes_servidor": 337,
+      "testes_cliente": 82,
+      "arquivos_teste": 20,
+      "testes_arquitetura": false,
+      "ci": false,
+      "docs_arquitetura": 3,
+      "radon": {
+        "funcoes": 551,
+        "cc_media": 3.8,
+        "cc_acima_de_10": 33,
+        "mi_media": 44.8
+      },
+      "ruff_achados": 5
+    }
+  },
+  {
+    "nome": "v3",
+    "rev": "e4c97eb",
+    "resumo": "celular, golpes com formato, magias e mochila de formas",
+    "medidas": {
+      "data": "2026-10-04",
+      "commits": 101,
+      "loc_total": 23458,
+      "loc_servidor": 7745,
+      "modulos_banco": [
+        "motor/banco.py"
+      ],
+      "arquivos_http": [
+        "api.ts",
+        "jogo/pvpve/lobby.ts",
+        "ui/progresso.ts"
+      ],
+      "loc_cliente": 15713,
+      "modulos_motor": 27,
+      "arquivos_ts": 93,
+      "migracoes_jogo": 16,
+      "regras_rn": 46,
+      "gatilhos": 69,
+      "testes_servidor": 542,
+      "testes_cliente": 207,
+      "arquivos_teste": 35,
+      "testes_arquitetura": false,
+      "ci": false,
+      "docs_arquitetura": 5,
+      "radon": {
+        "funcoes": 757,
+        "cc_media": 3.83,
+        "cc_acima_de_10": 42,
+        "mi_media": 46.1
+      },
+      "ruff_achados": 9
+    }
+  },
+  {
+    "nome": "v3 + ES",
+    "rev": "TRABALHO",
+    "resumo": "CI, PRs, regras de arquitetura e cobertura (este trabalho)",
+    "medidas": {
+      "data": "hoje",
+      "commits": 106,
+      "loc_total": 23676,
+      "loc_servidor": 7745,
+      "modulos_banco": [
+        "motor/banco.py"
+      ],
+      "arquivos_http": [
+        "api.ts"
+      ],
+      "loc_cliente": 15931,
+      "modulos_motor": 27,
+      "arquivos_ts": 96,
+      "migracoes_jogo": 16,
+      "regras_rn": 46,
+      "gatilhos": 69,
+      "testes_servidor": 552,
+      "testes_cliente": 243,
+      "arquivos_teste": 40,
+      "testes_arquitetura": true,
+      "ci": true,
+      "docs_arquitetura": 16,
+      "radon": {
+        "funcoes": 757,
+        "cc_media": 3.83,
+        "cc_acima_de_10": 42,
+        "mi_media": 46.1
+      },
+      "ruff_achados": 0
+    }
+  }
+]

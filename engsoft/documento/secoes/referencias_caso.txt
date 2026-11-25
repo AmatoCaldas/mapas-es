@@ -1,0 +1,3 @@
+github2026|GITHUB. GitHub Actions documentation. [S. l.], 2026. Disponível em: https://docs.github.com/actions. Acesso em: 23 nov. 2026.
+lacchia2023|LACCHIA, Michele. Radon: various code metrics for Python code. Versão 6.0.1. [S. l.], 2023. Disponível em: https://radon.readthedocs.io. Acesso em: 23 nov. 2026.
+astral2026|ASTRAL. Ruff: an extremely fast Python linter and code formatter. Versão 0.17. [S. l.], 2026. Disponível em: https://docs.astral.sh/ruff. Acesso em: 23 nov. 2026.

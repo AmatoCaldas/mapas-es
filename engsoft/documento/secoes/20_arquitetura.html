@@ -1,0 +1,67 @@
+<h2>Arquitetura de Software</h2>
+
+<h3>Definição</h3>
+
+<p>A arquitetura de software trata da organização fundamental de um sistema: em que partes ele se divide, como essas partes se relacionam e por que foram organizadas assim. Perry e Wolf (1992) descreveram a arquitetura como a combinação de elementos, da forma como se organizam e do <em>racional</em>, isto é, das razões das escolhas. Bass, Clements e Kazman (2021) a definem como o conjunto de estruturas necessárias para raciocinar sobre o sistema, compostas por elementos de software, suas relações e as propriedades de ambos. A norma ISO/IEC/IEEE 42010 adota formulação semelhante:</p>
+
+<blockquote>“conceitos ou propriedades fundamentais de um sistema em seu ambiente, incorporados em seus elementos, relacionamentos e nos princípios de seu projeto e evolução” (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 2011b, tradução nossa).</blockquote>
+
+<p>Duas consequências dessas definições orientam este trabalho. Primeiro, todo sistema tem uma arquitetura, documentada ou não; a <em>descrição arquitetural</em> é apenas o artefato que a expressa. Segundo, nem toda decisão é arquitetural. Fowler (2003) propõe um critério prático: são arquiteturais as decisões difíceis de mudar depois de tomadas. Escolher o banco de dados ou o modo de comunicação entre cliente e servidor é arquitetura; escolher o nome de uma variável não é.</p>
+
+<h3>Histórico</h3>
+
+<p>As ideias centrais da área são anteriores ao próprio termo. Dijkstra (1968) organizou o sistema operacional THE em camadas, cada uma dependendo apenas das inferiores. Parnas (1972) propôs que cada módulo escondesse uma decisão de projeto sujeita a mudança, expondo apenas uma interface estável — o princípio da ocultação de informação. Conway (1968) observou que a estrutura dos sistemas tende a reproduzir a estrutura de comunicação das equipes que os constroem.</p>
+
+<p>A arquitetura se firmou como disciplina na década de 1990, com Perry e Wolf (1992), Shaw e Garlan (1996), que descreveram os <em>estilos arquiteturais</em> em termos de componentes e conectores, e Kruchten (1995), que propôs descrever um sistema por várias visões complementares. Em 2000 surgiram o primeiro padrão de descrição arquitetural, o IEEE 1471, depois substituído pela ISO/IEC/IEEE 42010, e o estilo REST (FIELDING, 2000). Nas décadas seguintes vieram a arquitetura hexagonal (COCKBURN, 2005), que isola o núcleo da aplicação das tecnologias externas, os microsserviços (LEWIS; FOWLER, 2014) e três práticas usadas no estudo de caso deste trabalho: os Registros de Decisão Arquitetural, ou ADRs (NYGARD, 2011), o modelo de diagramas C4 (BROWN, [20--]) e as <em>funções de aptidão</em> (<em>fitness functions</em>), verificações automáticas de que uma característica arquitetural continua valendo (FORD; PARSONS; KUA, 2017).</p>
+
+<h3>Importância para a Engenharia de Software</h3>
+
+<p>A funcionalidade de um sistema pode ser obtida com quase qualquer estrutura; os <em>atributos de qualidade</em> não. Desempenho, segurança, disponibilidade, testabilidade e facilidade de manutenção dependem de como o sistema é dividido e de como as partes interagem (BASS; CLEMENTS; KAZMAN, 2021). Por isso a arquitetura é o elo entre os requisitos e a qualidade do produto, tema do Capítulo 3.</p>
+
+<p>Esses atributos competem entre si, e a arquitetura é o lugar onde os compromissos são decididos. Richards e Ford (2020) resumem que, em arquitetura, tudo é uma questão de <em>trade-off</em>: centralizar regras facilita a consistência e cria um ponto de dependência; distribuir o sistema facilita a escala e aumenta a complexidade. O valor de uma boa arquitetura não está em evitar custos, mas em escolhê-los de forma consciente e registrada.</p>
+
+<p>Há ainda o problema da degradação. Sistemas em uso tendem a perder estrutura à medida que evoluem, a menos que haja trabalho deliberado para evitá-lo (LEHMAN, 1980). Perry e Wolf (1992) chamam de <em>erosão arquitetural</em> a situação em que o código passa a violar a arquitetura planejada. Uma regra arquitetural que existe apenas num documento depende da memória e da disciplina de quem altera o código; essa fragilidade é o ponto de partida da parte prática deste trabalho.</p>
+
+<h3>Tecnologias e ferramentas</h3>
+
+<p>As ferramentas da área se agrupam conforme a atividade que apoiam:</p>
+<ul>
+<li><strong>Modelagem:</strong> UML, o modelo C4 e ferramentas de diagramas como código, como PlantUML e Mermaid, que permitem versionar os diagramas junto com o código.</li>
+<li><strong>Registro de decisões:</strong> ADRs, arquivos curtos mantidos no repositório com contexto, decisão e consequências (NYGARD, 2011).</li>
+<li><strong>Avaliação:</strong> métodos baseados em cenários, como o ATAM, do Software Engineering Institute (KAZMAN; KLEIN; CLEMENTS, 2000).</li>
+<li><strong>Verificação de conformidade:</strong> testes automatizados de regras de dependência entre módulos, como o ArchUnit (Java), o import-linter (Python) e o dependency-cruiser (TypeScript), executados na integração contínua.</li>
+<li><strong>Implantação:</strong> contêineres (Docker) e orquestradores, que tornam a visão de implantação parte executável da arquitetura.</li>
+</ul>
+
+<h3>Padrões e normas</h3>
+
+<p>Os <em>estilos arquiteturais</em> são soluções recorrentes para a organização global de sistemas (SHAW; GARLAN, 1996). Três deles são relevantes ao estudo de caso: <strong>cliente-servidor</strong>, em que o servidor concentra dados e regras e os clientes solicitam serviços; <strong>camadas</strong>, em que cada nível depende apenas dos níveis mais internos; e a <strong>arquitetura hexagonal</strong>, em que tecnologias externas, como o banco de dados, são conectadas ao núcleo por adaptadores (COCKBURN, 2005).</p>
+
+<p>No plano normativo, a <strong>ISO/IEC/IEEE 42010:2022</strong> define o vocabulário e os requisitos de uma descrição arquitetural: interessados, preocupações, pontos de vista e visões (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 2022b). As normas <strong>ISO/IEC/IEEE 42020</strong> e <strong>42030</strong>, de 2019, tratam dos processos e da avaliação de arquiteturas (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 2019a, 2019b). A <strong>ISO/IEC 25010</strong> fornece o vocabulário dos atributos de qualidade usados para orientar decisões arquiteturais (INTERNATIONAL ORGANIZATION FOR STANDARDIZATION, 2023a). No nível corporativo, o <strong>TOGAF</strong>, do The Open Group, é o arcabouço de referência do mercado, embora não seja uma norma ISO (THE OPEN GROUP, 2022).</p>
+
+<h3>Profissões</h3>
+
+<p>As funções ligadas à arquitetura costumam exigir experiência prévia em desenvolvimento e capacidade de negociar com interessados técnicos e de negócio. As mais comuns estão no Quadro a seguir, junto com as certificações associadas. No Brasil, as profissões de TI não são regulamentadas por conselho profissional, de modo que formação, experiência e certificações funcionam como sinais de qualificação, e não como exigências legais.</p>
+
+<h3>Certificações</h3>
+
+<p>Nenhuma certificação é obrigatória para exercer as funções de arquitetura. As neutras em relação a fornecedores, como as do iSAQB e do The Open Group, cobrem conceitos gerais; as dos provedores de nuvem são específicas de cada plataforma e exigem renovação periódica.</p>
+
+<table>
+<caption>Quadro: Profissões e certificações ligadas à arquitetura de software</caption>
+<thead><tr><th>Profissão</th><th>Atuação</th><th>Certificações associadas (opcionais)</th></tr></thead>
+<tbody>
+<tr><td>Arquiteto de software</td><td>Estrutura de um sistema ou produto, padrões técnicos e registro de decisões</td><td>iSAQB CPSA-F e CPSA-A</td></tr>
+<tr><td>Arquiteto de soluções e de nuvem</td><td>Solução técnica para um problema de negócio, integrando sistemas e serviços de nuvem</td><td>AWS Certified Solutions Architect; Azure Solutions Architect Expert; Google Professional Cloud Architect</td></tr>
+<tr><td>Arquiteto corporativo</td><td>Alinhamento de processos, dados, aplicações e infraestrutura à estratégia da organização</td><td>TOGAF (The Open Group)</td></tr>
+<tr><td><em>Tech lead</em>, engenheiro <em>staff</em> ou <em>principal</em></td><td>Decisões de arquitetura de uma ou mais equipes, sem cargo de gestão de pessoas</td><td>Em geral, nenhuma específica; experiência comprovada</td></tr>
+</tbody>
+</table>
+
+<h3>Impactos da Inteligência Artificial</h3>
+
+<p>A Inteligência Artificial, em especial os modelos de linguagem de grande porte, afeta a arquitetura de três maneiras. Como <strong>ferramenta</strong>, assistentes e agentes que geram código em volume reduzem o custo de implementar, mas não o de decisões estruturais erradas. Quando o código é produzido mais rápido do que pode ser lido, contratos de interface, limites claros entre módulos e decisões registradas passam a ser insumos diretos para os agentes, que seguem regras escritas, mas não intenções implícitas.</p>
+
+<p>Como <strong>componente</strong>, sistemas que incorporam modelos de linguagem trazem novos elementos, como bases de recuperação de documentos (LEWIS et al., 2020) e orquestração de agentes, e novos atributos de qualidade: custo por requisição, latência e taxa de respostas incorretas. Sculley et al. (2015) mostraram que, nesses sistemas, o modelo é uma pequena parte do código, cercada de infraestrutura que concentra boa parte da dívida técnica.</p>
+
+<p>Como <strong>risco</strong>, o código gerado tende a resolver o problema local pelo caminho mais curto — importar uma camada proibida, duplicar uma função existente —, acelerando a erosão arquitetural (PERRY; WOLF, 1992). A resposta mais consistente é automatizar a verificação da arquitetura com funções de aptidão executadas a cada alteração (FORD; PARSONS; KUA, 2017). O estudo de caso do Capítulo 4 mostra um exemplo concreto desse risco e dessa resposta.</p>

@@ -1,0 +1,74 @@
+softex2021|ASSOCIAÇÃO PARA PROMOÇÃO DA EXCELÊNCIA DO SOFTWARE BRASILEIRO. MPS.BR: melhoria de processo do software brasileiro: guia geral MPS de software. [S. l.]: SOFTEX, 2021.
+avizienis2004|AVIZIENIS, Algirdas et al. Basic concepts and taxonomy of dependable and secure computing. IEEE Transactions on Dependable and Secure Computing, [S. l.], v. 1, n. 1, p. 11-33, jan./mar. 2004.
+barr2015|BARR, Earl T. et al. The oracle problem in software testing: a survey. IEEE Transactions on Software Engineering, [S. l.], v. 41, n. 5, p. 507-525, maio 2015.
+bass2021|BASS, Len; CLEMENTS, Paul; KAZMAN, Rick. Software architecture in practice. 4. ed. Boston: Addison-Wesley, 2021.
+beck2003|BECK, Kent. Test-driven development: by example. Boston: Addison-Wesley, 2003.
+beck2001|BECK, Kent et al. Manifesto for agile software development. [S. l.], 2001. Disponível em: https://agilemanifesto.org. Acesso em: 23 nov. 2026.
+beyer2016|BEYER, Betsy et al. (org.). Site reliability engineering: how Google runs production systems. Sebastopol: O'Reilly Media, 2016.
+boehm1981|BOEHM, Barry W. Software engineering economics. Englewood Cliffs: Prentice-Hall, 1981.
+boehm2001|BOEHM, Barry; BASILI, Victor R. Software defect reduction top 10 list. Computer, [S. l.], v. 34, n. 1, p. 135-137, jan. 2001.
+boehm1978|BOEHM, Barry W. et al. Characteristics of software quality. Amsterdam: North-Holland, 1978.
+brooks1975|BROOKS, Frederick P. The mythical man-month: essays on software engineering. Reading: Addison-Wesley, 1975.
+brown20xx|BROWN, Simon. The C4 model for visualising software architecture. [S. l.], [20--]. Disponível em: https://c4model.com. Acesso em: 23 nov. 2026.
+buschmann1996|BUSCHMANN, Frank et al. Pattern-oriented software architecture: a system of patterns. Chichester: John Wiley & Sons, 1996. v. 1.
+cmmi2010|CMMI PRODUCT TEAM. CMMI for development, version 1.3. Pittsburgh: Software Engineering Institute, Carnegie Mellon University, 2010. (Technical Report CMU/SEI-2010-TR-033).
+cockburn2005|COCKBURN, Alistair. Hexagonal architecture. [S. l.], 2005. Disponível em: https://alistair.cockburn.us/hexagonal-architecture/. Acesso em: 23 nov. 2026.
+cohn2009|COHN, Mike. Succeeding with agile: software development using Scrum. Upper Saddle River: Addison-Wesley, 2009.
+conway1968|CONWAY, Melvin E. How do committees invent? Datamation, [S. l.], v. 14, n. 4, p. 28-31, abr. 1968.
+crosby1979|CROSBY, Philip B. Quality is free: the art of making quality certain. New York: McGraw-Hill, 1979.
+cunningham1992|CUNNINGHAM, Ward. The WyCash portfolio management system. In: CONFERENCE ON OBJECT-ORIENTED PROGRAMMING SYSTEMS, LANGUAGES, AND APPLICATIONS, 7., 1992, Vancouver. Addendum to the proceedings [...]. New York: ACM, 1992. p. 29-30.
+deming1986|DEMING, W. Edwards. Out of the crisis. Cambridge: MIT Center for Advanced Engineering Study, 1986.
+dijkstra1968|DIJKSTRA, Edsger W. The structure of the "THE"-multiprogramming system. Communications of the ACM, New York, v. 11, n. 5, p. 341-346, maio 1968.
+evans2003|EVANS, Eric. Domain-driven design: tackling complexity in the heart of software. Boston: Addison-Wesley, 2003.
+fagan1976|FAGAN, Michael E. Design and code inspections to reduce errors in program development. IBM Systems Journal, [S. l.], v. 15, n. 3, p. 182-211, 1976.
+fielding2000|FIELDING, Roy Thomas. Architectural styles and the design of network-based software architectures. 2000. Tese (Doctor of Philosophy in Information and Computer Science) – University of California, Irvine, 2000.
+ford2017|FORD, Neal; PARSONS, Rebecca; KUA, Patrick. Building evolutionary architectures: support constant change. Sebastopol: O'Reilly Media, 2017.
+forsgren2018|FORSGREN, Nicole; HUMBLE, Jez; KIM, Gene. Accelerate: the science of lean software and DevOps: building and scaling high performing technology organizations. Portland: IT Revolution Press, 2018.
+fowler2003|FOWLER, Martin. Who needs an architect? IEEE Software, [S. l.], v. 20, n. 5, p. 11-13, set./out. 2003.
+fraser2011|FRASER, Gordon; ARCURI, Andrea. EvoSuite: automatic test suite generation for object-oriented software. In: EUROPEAN SOFTWARE ENGINEERING CONFERENCE AND ACM SIGSOFT SYMPOSIUM ON THE FOUNDATIONS OF SOFTWARE ENGINEERING, 19., 2011, Szeged. Proceedings [...]. New York: ACM, 2011. p. 416-419.
+gamma1994|GAMMA, Erich et al. Design patterns: elements of reusable object-oriented software. Reading: Addison-Wesley, 1994.
+garvin1984|GARVIN, David A. What does "product quality" really mean? Sloan Management Review, [S. l.], v. 26, n. 1, p. 25-43, 1984.
+humble2010|HUMBLE, Jez; FARLEY, David. Continuous delivery: reliable software releases through build, test, and deployment automation. Upper Saddle River: Addison-Wesley, 2010.
+humphrey1989|HUMPHREY, Watts S. Managing the software process. Reading: Addison-Wesley, 1989.
+ieee1990|INSTITUTE OF ELECTRICAL AND ELECTRONICS ENGINEERS. IEEE Std 610.12-1990: IEEE standard glossary of software engineering terminology. New York: IEEE, 1990.
+ieee2000|INSTITUTE OF ELECTRICAL AND ELECTRONICS ENGINEERS. IEEE Std 1471-2000: IEEE recommended practice for architectural description of software-intensive systems. New York: IEEE, 2000.
+iso1991|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 9126: information technology: software product evaluation: quality characteristics and guidelines for their use. Geneva: ISO, 1991.
+iso2001|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 9126-1: software engineering: product quality: part 1: quality model. Geneva: ISO, 2001.
+iso2011a|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 25010: systems and software engineering: systems and software quality requirements and evaluation (SQuaRE): system and software quality models. Geneva: ISO, 2011a.
+iso2011b|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC/IEEE 42010: systems and software engineering: architecture description. Geneva: ISO, 2011b.
+iso2014|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 25000: systems and software engineering: systems and software quality requirements and evaluation (SQuaRE): guide to SQuaRE. Geneva: ISO, 2014.
+iso2015|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO 9001: quality management systems: requirements. 5. ed. Geneva: ISO, 2015.
+iso2016|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 25023: systems and software engineering: systems and software quality requirements and evaluation (SQuaRE): measurement of system and software product quality. Geneva: ISO, 2016.
+iso2017|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC/IEEE 12207: systems and software engineering: software life cycle processes. Geneva: ISO, 2017.
+iso2018|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC/IEEE 90003: software engineering: guidelines for the application of ISO 9001:2015 to computer software. Geneva: ISO, 2018.
+iso2019a|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC/IEEE 42020: software, systems and enterprise: architecture processes. Geneva: ISO, 2019a.
+iso2019b|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC/IEEE 42030: software, systems and enterprise: architecture evaluation framework. Geneva: ISO, 2019b.
+iso2022a|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC/IEEE 29119-1: software and systems engineering: software testing: part 1: general concepts. Geneva: ISO, 2022a.
+iso2022b|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC/IEEE 42010: software, systems and enterprise: architecture description. Geneva: ISO, 2022b.
+iso2023a|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 25010: systems and software engineering: systems and software quality requirements and evaluation (SQuaRE): product quality model. Geneva: ISO, 2023a.
+iso2023b|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 25019: systems and software engineering: systems and software quality requirements and evaluation (SQuaRE): quality-in-use model. Geneva: ISO, 2023b.
+iso2023c|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 25059: software engineering: systems and software quality requirements and evaluation (SQuaRE): quality model for AI systems. Geneva: ISO, 2023c.
+iso2023d|INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO/IEC 42001: information technology: artificial intelligence: management system. Geneva: ISO, 2023d.
+istqb2023|INTERNATIONAL SOFTWARE TESTING QUALIFICATIONS BOARD. Certified Tester Foundation Level (CTFL): syllabus: version 4.0. [S. l.]: ISTQB, 2023.
+juran1988|JURAN, Joseph M.; GRYNA, Frank M. (ed.). Juran's quality control handbook. 4. ed. New York: McGraw-Hill, 1988.
+kazman2000|KAZMAN, Rick; KLEIN, Mark; CLEMENTS, Paul. ATAM: method for architecture evaluation. Pittsburgh: Software Engineering Institute, Carnegie Mellon University, 2000. (Technical Report CMU/SEI-2000-TR-004).
+kitchenham1996|KITCHENHAM, Barbara; PFLEEGER, Shari Lawrence. Software quality: the elusive target. IEEE Software, [S. l.], v. 13, n. 1, p. 12-21, jan. 1996.
+kruchten1995|KRUCHTEN, Philippe B. The 4+1 view model of architecture. IEEE Software, [S. l.], v. 12, n. 6, p. 42-50, nov. 1995.
+lehman1980|LEHMAN, Meir M. Programs, life cycles, and laws of software evolution. Proceedings of the IEEE, [S. l.], v. 68, n. 9, p. 1060-1076, set. 1980.
+lewisfowler2014|LEWIS, James; FOWLER, Martin. Microservices: a definition of this new architectural term. [S. l.], 25 mar. 2014. Disponível em: https://martinfowler.com/articles/microservices.html. Acesso em: 23 nov. 2026.
+lewis2020|LEWIS, Patrick et al. Retrieval-augmented generation for knowledge-intensive NLP tasks. In: CONFERENCE ON NEURAL INFORMATION PROCESSING SYSTEMS, 34., 2020, [on-line]. Advances in neural information processing systems 33. Red Hook: Curran Associates, 2020. p. 9459-9474.
+mccabe1976|McCABE, Thomas J. A complexity measure. IEEE Transactions on Software Engineering, [S. l.], v. SE-2, n. 4, p. 308-320, dez. 1976.
+mccall1977|McCALL, Jim A.; RICHARDS, Paul K.; WALTERS, Gene F. Factors in software quality. Rome, NY: Rome Air Development Center, 1977. 3 v. (Technical Report RADC-TR-77-369).
+myers2011|MYERS, Glenford J.; SANDLER, Corey; BADGETT, Tom. The art of software testing. 3. ed. Hoboken: John Wiley & Sons, 2011.
+nygard2011|NYGARD, Michael. Documenting architecture decisions. [S. l.], 15 nov. 2011. Disponível em: https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions. Acesso em: 23 nov. 2026.
+oman1992|OMAN, Paul; HAGEMEISTER, Jack. Metrics for assessing a software system's maintainability. In: CONFERENCE ON SOFTWARE MAINTENANCE, 1992, Orlando. Proceedings [...]. Los Alamitos: IEEE Computer Society Press, 1992. p. 337-344.
+parnas1972|PARNAS, David L. On the criteria to be used in decomposing systems into modules. Communications of the ACM, New York, v. 15, n. 12, p. 1053-1058, dez. 1972.
+paulk1993|PAULK, Mark C. et al. Capability maturity model for software, version 1.1. Pittsburgh: Software Engineering Institute, Carnegie Mellon University, 1993. (Technical Report CMU/SEI-93-TR-024).
+pearce2022|PEARCE, Hammond et al. Asleep at the keyboard? Assessing the security of GitHub Copilot's code contributions. In: IEEE SYMPOSIUM ON SECURITY AND PRIVACY, 43., 2022, San Francisco. Proceedings [...]. Los Alamitos: IEEE Computer Society, 2022. p. 754-768.
+perry1992|PERRY, Dewayne E.; WOLF, Alexander L. Foundations for the study of software architecture. ACM SIGSOFT Software Engineering Notes, New York, v. 17, n. 4, p. 40-52, out. 1992.
+pressman2020|PRESSMAN, Roger S.; MAXIM, Bruce R. Software engineering: a practitioner's approach. 9. ed. New York: McGraw-Hill Education, 2020.
+richards2020|RICHARDS, Mark; FORD, Neal. Fundamentals of software architecture: an engineering approach. Sebastopol: O'Reilly Media, 2020.
+sculley2015|SCULLEY, D. et al. Hidden technical debt in machine learning systems. In: CONFERENCE ON NEURAL INFORMATION PROCESSING SYSTEMS, 29., 2015, Montreal. Advances in neural information processing systems 28. Red Hook: Curran Associates, 2015. p. 2503-2511.
+shaw1996|SHAW, Mary; GARLAN, David. Software architecture: perspectives on an emerging discipline. Upper Saddle River: Prentice Hall, 1996.
+shewhart1931|SHEWHART, Walter A. Economic control of quality of manufactured product. New York: D. Van Nostrand, 1931.
+opengroup2022|THE OPEN GROUP. The TOGAF standard: 10th edition. [S. l.]: The Open Group, 2022.

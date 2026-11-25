@@ -1,0 +1,15 @@
+# Análise estática do servidor (Ruff). Roda no CI, no job "servidor", antes dos testes.
+# Conjunto enxuto e de alto sinal: erros de sintaxe (E9), Pyflakes (F: nome indefinido, import
+# sem uso, variável morta) e flake8-bugbear (B: armadilhas comuns de Python).
+target-version = "py39"      # o servidor ainda roda em 3.9 (requisitos.txt); o CI e a produção usam 3.12
+line-length = 130
+
+[lint]
+select = ["E9", "F", "B"]
+ignore = [
+  "B905",   # zip(strict=...) só existe a partir do Python 3.10
+]
+
+[lint.per-file-ignores]
+# Fixtures do pytest são importadas de outro módulo de teste e "redefinidas" como parâmetro.
+"testes/*" = ["F811"]

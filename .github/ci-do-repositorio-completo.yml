@@ -1,0 +1,98 @@
+# Roda em todo PR e em todo push na main. Os jobs "cliente" e "servidor" são as
+# verificações obrigatórias da proteção da main (.github/protecao-main.json):
+# renomear um job aqui exige atualizar a proteção também.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  cliente:
+    name: cliente
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: projeto/jogo/cliente
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22          # mesma da imagem de produção (Dockerfile); o "testar" precisa do strip-types
+          cache: npm
+          cache-dependency-path: projeto/jogo/cliente/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - name: tipos (tsc)
+        run: npm run checar
+      - name: testes, regras de arquitetura e cobertura (catraca)
+        # npm run cobertura = npm run testar + cobertura; falha se linhas/ramos/funções caírem abaixo
+        # do patamar do package.json (o patamar só sobe: ver docs/qualidade/QUALIDADE.md)
+        run: npm run cobertura | tee cobertura.txt
+      - name: resumo da cobertura
+        if: always()
+        run: |
+          { echo '### Cobertura do cliente (node --test)'; echo '```'; grep -E '^# (all files|tests|pass|fail)' cobertura.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: build (vite)
+        run: npm run build
+
+  servidor:
+    name: servidor
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          # banco descartável do CI, igual ao de dev (banco_dev.py): trust, UTF8, locale C
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale=C
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: localhost
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGDATABASE: mapas_jogo
+      PGCLIENTENCODING: UTF8
+    defaults:
+      run:
+        working-directory: projeto/jogo/servidor
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"    # mesma da imagem de produção
+          cache: pip
+          cache-dependency-path: projeto/jogo/servidor/requisitos.lock
+      - name: dependências
+        run: pip install -r requisitos.lock pytest==8.4.2 httpx==0.28.1 pytest-cov==7.1.0 coverage==7.10.7 ruff==0.17.6 radon==6.0.1
+      - name: análise estática (ruff)
+        run: ruff check --output-format github .
+      - name: regras de arquitetura (sem banco)
+        run: python -m pytest testes/test_arquitetura.py -q -p no:cacheprovider
+      - name: banco do zero (01–07 do curso + migrações do jogo)
+        run: |
+          createdb mapas_jogo
+          python migrar.py
+      - name: testes com cobertura
+        run: python -m pytest testes -q -p no:cacheprovider --cov --cov-report=
+      - name: resumo da cobertura e da complexidade
+        if: always()
+        run: |
+          { echo '### Cobertura do servidor (pytest-cov)'; coverage report --format=markdown --skip-covered;
+            echo; echo '### Complexidade ciclomática (radon, informativo)'; echo '```';
+            radon cc -a -s -nc motor main.py | tail -25; echo '```'; } >> "$GITHUB_STEP_SUMMARY"

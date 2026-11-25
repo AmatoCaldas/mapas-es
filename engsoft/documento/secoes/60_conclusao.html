@@ -1,0 +1,9 @@
+<h2>Considerações finais</h2>
+
+<p>Este trabalho percorreu Arquitetura de Software e Qualidade de Software em duas frentes: a teórica, cobrindo os oito itens propostos para cada tema, e a prática, com um sistema real cuja evolução pôde ser medida versão a versão.</p>
+
+<p>A pergunta da Introdução era o que mantém as decisões de arquitetura de pé enquanto o código cresce rapidamente. O estudo de caso sugere uma resposta em duas partes. A primeira é tomar poucas decisões fortes e explícitas, conhecendo seus custos: o banco como árbitro das regras e o adaptador único de acesso a ele sustentaram um crescimento de cerca de catorze vezes entre a v1 e a v3 sem mudança de estilo. A segunda é não depender apenas do documento. A regra equivalente do lado do cliente — só um arquivo conversa com a API — se rompeu assim que o desenvolvimento passou a ser feito por agentes de IA em paralelo, e ninguém percebeu, porque o comportamento do jogo continuava correto. Só quando a regra foi escrita como teste a violação apareceu, foi corrigida e deixou de poder voltar.</p>
+
+<p>Esse resultado conecta os dois temas e o impacto da Inteligência Artificial discutido em ambos. A IA acelera a produção de código; a arquitetura explícita torna possível dividir esse trabalho; e o controle de qualidade automatizado — testes, análise estática e regras de arquitetura executadas a cada alteração — é o que dá confiança para aceitar o código produzido nessa velocidade.</p>
+
+<p>Ficam como continuidade as limitações registradas na Seção 5.5: testar a camada visual de ponta a ponta no navegador, refatorar a função mais complexa do servidor e definir o patamar de cobertura do servidor a partir da primeira medição.</p>

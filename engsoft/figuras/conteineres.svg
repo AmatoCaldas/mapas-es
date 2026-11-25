@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 450" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334"/></marker>
+  </defs>
+  <rect x="0" y="0" width="820" height="450" fill="#fff"/>
+  <!-- jogador -->
+  <circle cx="120" cy="22" r="14" fill="#dbe7f3" stroke="#2b5d8a"/>
+  <rect x="70" y="40" width="100" height="30" rx="8" fill="#dbe7f3" stroke="#2b5d8a"/>
+  <text x="120" y="60" text-anchor="middle" font-weight="bold">Jogador (1–4)</text>
+  <line x1="120" y1="72" x2="120" y2="118" stroke="#334" marker-end="url(#s)"/>
+  <!-- cliente -->
+  <rect x="20" y="120" width="200" height="130" rx="10" fill="#e8f1fb" stroke="#2b5d8a" stroke-width="1.5"/>
+  <text x="120" y="146" text-anchor="middle" font-weight="bold">Cliente (navegador)</text>
+  <text x="120" y="168" text-anchor="middle">TypeScript · Phaser 3 · Vite</text>
+  <text x="120" y="192" text-anchor="middle" font-size="12">desenha, anima e captura</text>
+  <text x="120" y="208" text-anchor="middle" font-size="12">a intenção do jogador;</text>
+  <text x="120" y="224" text-anchor="middle" font-size="12">prévia local (núcleo puro)</text>
+  <!-- imagem docker -->
+  <rect x="285" y="24" width="520" height="276" rx="12" fill="#f6f6f6" stroke="#888" stroke-dasharray="6 4"/>
+  <text x="545" y="46" text-anchor="middle" fill="#555" font-weight="bold">Imagem Docker única (ADR-0006)</text>
+  <rect x="320" y="66" width="220" height="80" rx="10" fill="#fff3df" stroke="#b7791f" stroke-width="1.5"/>
+  <text x="430" y="92" text-anchor="middle" font-weight="bold">API REST · main.py</text>
+  <text x="430" y="112" text-anchor="middle" font-size="12">FastAPI: login, lobby, mochila,</text>
+  <text x="430" y="128" text-anchor="middle" font-size="12">perfil, mercador</text>
+  <rect x="320" y="196" width="220" height="80" rx="10" fill="#fff3df" stroke="#b7791f" stroke-width="1.5"/>
+  <text x="430" y="222" text-anchor="middle" font-weight="bold">Salas · motor/salas.py</text>
+  <text x="430" y="242" text-anchor="middle" font-size="12">WebSocket: 1 sala por partida,</text>
+  <text x="430" y="258" text-anchor="middle" font-size="12">turnos e broadcast</text>
+  <rect x="580" y="100" width="210" height="140" rx="10" fill="#e9f5ea" stroke="#2f7d3a" stroke-width="1.5"/>
+  <text x="685" y="126" text-anchor="middle" font-weight="bold">Motor do jogo</text>
+  <text x="685" y="142" text-anchor="middle" font-size="12">motor/*.py</text>
+  <text x="685" y="166" text-anchor="middle" font-size="12">casos de uso (partidas,</text>
+  <text x="685" y="182" text-anchor="middle" font-size="12">turno, mochila…)</text>
+  <text x="685" y="202" text-anchor="middle" font-size="12">domínio puro (golpes, IA…)</text>
+  <text x="685" y="222" text-anchor="middle" font-size="12">adaptador: banco.py</text>
+  <line x1="542" y1="112" x2="578" y2="140" stroke="#334" marker-end="url(#s)"/>
+  <line x1="542" y1="230" x2="578" y2="200" stroke="#334" marker-end="url(#s)"/>
+  <!-- cliente -> api / ws -->
+  <line x1="222" y1="160" x2="318" y2="110" stroke="#334" marker-end="url(#s)"/>
+  <text x="230" y="110" font-size="12">HTTPS</text><text x="230" y="124" font-size="12">JSON</text>
+  <line x1="222" y1="215" x2="318" y2="236" stroke="#334" marker-start="url(#s)" marker-end="url(#s)"/>
+  <text x="226" y="250" font-size="12">WSS</text>
+  <text x="226" y="266" font-size="11" fill="#555">intenção ↑</text>
+  <text x="226" y="280" font-size="11" fill="#555">eventos + estado ↓</text>
+  <!-- banco -->
+  <path d="M555,350 a130,16 0 0,0 260,0 a130,16 0 0,0 -260,0 v66 a130,16 0 0,0 260,0 v-66" fill="#f1e8f7" stroke="#6b3fa0" stroke-width="1.5" transform="translate(-0,0)"/>
+  <text x="685" y="386" text-anchor="middle" font-weight="bold">PostgreSQL 14 — o ÁRBITRO</text>
+  <text x="685" y="404" text-anchor="middle" font-size="12">constraints + 69 gatilhos</text>
+  <text x="685" y="420" text-anchor="middle" font-size="12">46 regras RNxx (ADR-0001)</text>
+  <line x1="685" y1="242" x2="685" y2="332" stroke="#334" marker-end="url(#s)"/>
+  <text x="695" y="318" font-size="12">transação</text>
+</svg>
